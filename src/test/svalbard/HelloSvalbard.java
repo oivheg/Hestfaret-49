@@ -23,7 +23,7 @@ public class HelloSvalbard extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         Box b = new Box(1,1,1) ; //create cube shape
-        Geometry geom = new Geometry("Box", b); // create cube geometry from teh shape
+        Geometry geom = new Geometry("House", b); // create cube geometry from teh shape
         Material mat = new Material(assetManager,
                 "common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
