@@ -14,7 +14,8 @@ import com.jme3.scene.shape.Box;
      
      
      public void House() {
-         //Box b = new Box(1,1,1) ; //create cube shape
+     
+         Box b = new Box(1,1,1) ; //create cube shape
      }
  }
     
