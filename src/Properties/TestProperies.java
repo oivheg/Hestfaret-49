@@ -5,9 +5,10 @@
 package Properties;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+
 
 
 /**
@@ -23,14 +24,17 @@ public class TestProperies  extends SimpleApplication  {
     
     @Override
     public void simpleInitApp( ) {
-     
-       House b = new House() ; //create cube shape
-        Geometry geom = new Geometry("House", b); // create cube geometry from teh shape
-        Material mat = new Material(assetManager, "common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-        rootNode.attachChild(geom);
-     
+  
+        flyCam.setMoveSpeed(100f);
+Spatial scene = assetManager.loadModel("Scenes/Hestfaret49.j3o");
+Node prop = new Node("Prop");
+Property props = new Property();
+
+prop.attachChild(props.Property(assetManager));
+rootNode.attachChild(scene);
+prop.setLocalTranslation(0,10,0.0f);
+rootNode.attachChild(prop);
+    
     }
     
     

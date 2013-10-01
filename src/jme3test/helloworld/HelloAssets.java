@@ -48,7 +48,7 @@ public class HelloAssets extends SimpleApplication {
         guiNode.attachChild(helloText);
  
         // Load a model from test_data (OgreXML + material + texture)
-        Spatial ninja = assetManager.loadModel("Scenes/Terrain/ETTerrain.material");
+        Spatial ninja = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
         ninja.scale(0.05f, 0.05f, 0.05f);
         ninja.rotate(0.0f, -3.0f, 0.0f);
         ninja.setLocalTranslation(0.0f, -5.0f, -2.0f);
