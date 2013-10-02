@@ -4,16 +4,14 @@
  */
 package Properties;
 
-import Positions.Pos;
 import com.jme3.math.ColorRGBA;
-import com.jme3.scene.Geometry;
 
 
 /**
  *
  * @author oivhe_000
  */
-abstract class Building extends Geometry {
+abstract class Building  {
     
     int height ;
     int width ;

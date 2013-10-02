@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mesh>
+    <sharedgeometry vertexcount="8">
+        <vertexbuffer texture_coords="0" positions="true" colours_diffuse="False" normals="true">
+            <vertex>
+                <position y="-0.126000" x="0.176000" z="0.249000"/>
+                <normal y="0.000000" x="-0.381446" z="-0.924391"/>
+            </vertex>
+            <vertex>
+                <position y="-0.126000" x="0.777000" z="0.001000"/>
+                <normal y="0.000000" x="-0.381446" z="-0.924391"/>
+            </vertex>
+            <vertex>
+                <position y="-0.902000" x="0.777000" z="0.001000"/>
+                <normal y="0.000000" x="-0.381446" z="-0.924391"/>
+            </vertex>
+            <vertex>
+                <position y="-0.902000" x="0.176000" z="0.249000"/>
+                <normal y="0.000000" x="-0.381446" z="-0.924391"/>
+            </vertex>
+            <vertex>
+                <position y="-0.126000" x="0.777000" z="0.001000"/>
+                <normal y="0.000000" x="0.382759" z="0.923848"/>
+            </vertex>
+            <vertex>
+                <position y="-0.126000" x="0.176000" z="0.250000"/>
+                <normal y="0.000000" x="0.382759" z="0.923848"/>
+            </vertex>
+            <vertex>
+                <position y="-0.902000" x="0.777000" z="0.001000"/>
+                <normal y="0.000000" x="0.382759" z="0.923848"/>
+            </vertex>
+            <vertex>
+                <position y="-0.902000" x="0.176000" z="0.250000"/>
+                <normal y="0.000000" x="0.382759" z="0.923848"/>
+            </vertex>
+        </vertexbuffer>
+    </sharedgeometry>
+    <submeshes>
+        <submesh usesharedvertices="true" material="XXX.138" use32bitindexes="False">
+            <faces count="4">
+                <face v1="0" v2="1" v3="2"/>
+                <face v1="2" v2="3" v3="0"/>
+                <face v1="4" v2="5" v3="6"/>
+                <face v1="7" v2="6" v3="5"/>
+            </faces>
+        </submesh>
+    </submeshes>
+</mesh>

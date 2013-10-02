@@ -26,13 +26,14 @@ public class TestProperies  extends SimpleApplication  {
     public void simpleInitApp( ) {
   
         flyCam.setMoveSpeed(100f);
-Spatial scene = assetManager.loadModel("Scenes/Hestfaret49.j3o");
+
 Node prop = new Node("Prop");
 Property props = new Property();
 
-prop.attachChild(props.Property(assetManager));
-rootNode.attachChild(scene);
-prop.setLocalTranslation(0,10,0.0f);
+prop.attachChild(props.getNode());
+
+
+
 rootNode.attachChild(prop);
     
     }

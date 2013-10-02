@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mesh>
+    <sharedgeometry vertexcount="12">
+        <vertexbuffer texture_coords="1" positions="true" colours_diffuse="False" normals="true">
+            <vertex>
+                <position y="1.256000" x="2.346000" z="-0.000000"/>
+                <normal y="-0.000000" x="1.000000" z="-0.000000"/>
+                <texcoord u="-3.689000" v="0.443000"/>
+            </vertex>
+            <vertex>
+                <position y="-1.255000" x="2.346000" z="-0.000000"/>
+                <normal y="-0.000000" x="1.000000" z="-0.000000"/>
+                <texcoord u="0.497000" v="0.443000"/>
+            </vertex>
+            <vertex>
+                <position y="-1.255000" x="2.346000" z="-0.170000"/>
+                <normal y="-0.000000" x="1.000000" z="-0.000000"/>
+                <texcoord u="0.497000" v="0.160000"/>
+            </vertex>
+            <vertex>
+                <position y="1.256000" x="2.346000" z="-0.170000"/>
+                <normal y="0.000000" x="1.000000" z="-0.000000"/>
+                <texcoord u="-3.689000" v="0.160000"/>
+            </vertex>
+            <vertex>
+                <position y="-1.255000" x="2.346000" z="-0.000000"/>
+                <normal y="0.000000" x="0.000000" z="1.000000"/>
+                <texcoord u="-3.821000" v="0.503000"/>
+            </vertex>
+            <vertex>
+                <position y="1.256000" x="-2.346000" z="-0.000000"/>
+                <normal y="0.000000" x="0.000000" z="1.000000"/>
+                <texcoord u="4.000000" v="4.689000"/>
+            </vertex>
+            <vertex>
+                <position y="-1.257000" x="-2.346000" z="-0.000000"/>
+                <normal y="0.000000" x="0.000000" z="1.000000"/>
+                <texcoord u="4.000000" v="0.500000"/>
+            </vertex>
+            <vertex>
+                <position y="1.256000" x="2.346000" z="-0.000000"/>
+                <normal y="0.000000" x="0.000000" z="1.000000"/>
+                <texcoord u="-3.821000" v="4.689000"/>
+            </vertex>
+            <vertex>
+                <position y="-1.255000" x="2.346000" z="-0.170000"/>
+                <normal y="0.000000" x="-0.000000" z="-1.000000"/>
+                <texcoord u="4.821000" v="0.503000"/>
+            </vertex>
+            <vertex>
+                <position y="-1.257000" x="-2.346000" z="-0.170000"/>
+                <normal y="0.000000" x="-0.000000" z="-1.000000"/>
+                <texcoord u="-3.000000" v="0.500000"/>
+            </vertex>
+            <vertex>
+                <position y="1.256000" x="-2.346000" z="-0.170000"/>
+                <normal y="0.000000" x="-0.000000" z="-1.000000"/>
+                <texcoord u="-3.000000" v="4.689000"/>
+            </vertex>
+            <vertex>
+                <position y="1.256000" x="2.346000" z="-0.170000"/>
+                <normal y="0.000000" x="0.000000" z="-1.000000"/>
+                <texcoord u="4.821000" v="4.689000"/>
+            </vertex>
+        </vertexbuffer>
+    </sharedgeometry>
+    <submeshes>
+        <submesh usesharedvertices="true" material="XXX.100" use32bitindexes="False">
+            <faces count="6">
+                <face v1="0" v2="1" v3="2"/>
+                <face v1="0" v2="2" v3="3"/>
+                <face v1="4" v2="5" v3="6"/>
+                <face v1="4" v2="7" v3="5"/>
+                <face v1="8" v2="9" v3="10"/>
+                <face v1="8" v2="10" v3="11"/>
+            </faces>
+        </submesh>
+    </submeshes>
+</mesh>

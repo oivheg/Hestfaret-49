@@ -1,0 +1,464 @@
+
+material _missing_material_ 
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            ambient 0.1 0.1 0.1 1.0
+            diffuse 0.8 0.0 0.0 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.3 0.3 0.3 1.0
+        }
+    }
+}
+
+
+// blender material: XXX.013
+material XXX.013 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.431
+    {
+        pass b2ogre_1348131053.431
+        {
+            ambient 0.13999999970197674 0.13999999970197674 0.13999999970197674 1.0
+            diffuse 0.559999998807907 0.559999998807907 0.559999998807907 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.012
+material XXX.012 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.431
+    {
+        pass b2ogre_1348131053.431
+        {
+            ambient 0.13999999970197674 0.13999999970197674 0.13999999970197674 1.0
+            diffuse 0.559999998807907 0.559999998807907 0.559999998807907 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.011
+material XXX.011 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.432
+    {
+        pass b2ogre_1348131053.432
+        {
+            ambient 0.13999999970197674 0.13999999970197674 0.13999999970197674 1.0
+            diffuse 0.559999998807907 0.559999998807907 0.559999998807907 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.010
+material XXX.010 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.432
+    {
+        pass b2ogre_1348131053.432
+        {
+            ambient 0.13999999970197674 0.13999999970197674 0.13999999970197674 1.0
+            diffuse 0.559999998807907 0.559999998807907 0.559999998807907 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.009
+material XXX.009 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.433
+    {
+        pass b2ogre_1348131053.433
+        {
+            ambient 0.13999999970197674 0.13999999970197674 0.13999999970197674 1.0
+            diffuse 0.559999998807907 0.559999998807907 0.559999998807907 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.008
+material XXX.008 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.433
+    {
+        pass b2ogre_1348131053.433
+        {
+            ambient 0.13999999970197674 0.13999999970197674 0.13999999970197674 1.0
+            diffuse 0.559999998807907 0.559999998807907 0.559999998807907 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.007
+material XXX.007 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.433
+    {
+        pass b2ogre_1348131053.433
+        {
+            ambient 0.13999999970197674 0.13999999970197674 0.13999999970197674 1.0
+            diffuse 0.559999998807907 0.559999998807907 0.559999998807907 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.006
+material XXX.006 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.434
+    {
+        pass b2ogre_1348131053.434
+        {
+            ambient 0.17999999791383736 0.17999999791383736 0.17999999791383736 1.0
+            diffuse 0.7199999916553494 0.7199999916553494 0.7199999916553494 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.005
+material XXX.005 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.434
+    {
+        pass b2ogre_1348131053.434
+        {
+            ambient 0.17999999791383736 0.17999999791383736 0.17999999791383736 1.0
+            diffuse 0.7199999916553494 0.7199999916553494 0.7199999916553494 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.004
+material XXX.004 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.435
+    {
+        pass b2ogre_1348131053.435
+        {
+            ambient 0.17999999791383736 0.17999999791383736 0.17999999791383736 1.0
+            diffuse 0.7199999916553494 0.7199999916553494 0.7199999916553494 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.003
+material XXX.003 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.435
+    {
+        pass b2ogre_1348131053.435
+        {
+            ambient 0.17999999791383736 0.17999999791383736 0.17999999791383736 1.0
+            diffuse 0.7199999916553494 0.7199999916553494 0.7199999916553494 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.002
+material XXX.002 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.436
+    {
+        pass b2ogre_1348131053.436
+        {
+            ambient 0.17999999791383736 0.17999999791383736 0.17999999791383736 1.0
+            diffuse 0.7199999916553494 0.7199999916553494 0.7199999916553494 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX.001
+material XXX.001 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.436
+    {
+        pass b2ogre_1348131053.436
+        {
+            ambient 0.17999999791383736 0.17999999791383736 0.17999999791383736 1.0
+            diffuse 0.7199999916553494 0.7199999916553494 0.7199999916553494 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}
+
+// blender material: XXX
+material XXX 
+{
+    receive_shadows on
+    technique b2ogre_1348131053.436
+    {
+        pass b2ogre_1348131053.436
+        {
+            ambient 0.040000001192092904 0.05000000074505806 0.040000001192092904 1.0
+            diffuse 0.16000000476837162 0.20000000298023224 0.16000000476837162 1.0
+            specular 0.0 0.0 0.0 1.0 25.75
+            emissive 0.0 0.0 0.0 1.0
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+        }
+    }
+}

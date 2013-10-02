@@ -21,11 +21,13 @@ public  House(){
      
 }
 
-public Geometry createHouse(AssetManager manager){
+
+
+public Geometry createHouse(AssetManager manager, int x){
    
       Box box1 = new Box(1,1,1);
      Geometry blue = new Geometry("Box",box1);
-blue.setLocalTranslation(new Vector3f(1,-1,1));
+blue.setLocalTranslation(new Vector3f(x,1f,0));
 Material mat1 = new Material(manager,
         "Common/MatDefs/Misc/Unshaded.j3md");
 mat1.setColor("Color",ColorRGBA.Blue);
