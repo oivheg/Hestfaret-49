@@ -5,6 +5,7 @@
 package Game;
 
 import Data.Data;
+import Effects.Fire;
 import Properties.Property;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
@@ -23,6 +24,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.List;
 import Properties.Property;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
+import com.jme3.material.Material;
 
 /**
  *
@@ -63,7 +67,7 @@ public class InitGame extends SimpleApplication implements ActionListener{
     flyCam.setMoveSpeed(100);
     setUpKeys();
 
-    Property props = new Property();
+ 
 
        CollisionShape sceneShape =
       CollisionShapeFactory.createMeshShape((Node) scene);
@@ -95,6 +99,20 @@ public class InitGame extends SimpleApplication implements ActionListener{
           
           
       }
+      
+   // fire
+      
+      Fire fire = new Fire(assetManager);
+      rootNode.attachChild(fire.GetFire());
+      rootNode.attachChild(fire.GetDebris());
+      
+      
+    // end fire
+      
+      
+      
+      
+      
      
     //finished addint stuff to scene
     CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);

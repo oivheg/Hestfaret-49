@@ -26,15 +26,16 @@ public class Property {
     private Node pivot = new Node("pivot");
    public int posX = 0;
     
-    public Spatial addHouse(AssetManager manager) {
-    return manager.loadModel("Scenes/rooms/DemoRoom/Ogre3D/DemoRoom.scene");
+    public void addHouse(AssetManager manager) {
+   Spatial house = manager.loadModel("Scenes/rooms/DemoRoom/Ogre3D/DemoRoom.j3o"); 
+   pivot.attachChild(house);
 }
     
   public Node getNode() {
       return pivot;
   }
     
-public void Property(AssetManager manager) {
+public  Property(AssetManager manager) {
     
    Quad q = new Quad(width, height);
    
@@ -51,10 +52,10 @@ public void Property(AssetManager manager) {
    
    quad.rotate(-FastMath.PI / 2, 0, 0);
  
-    House house1 = new House();
+    House house1 = new House(manager,posX);
 
  
-  pivot.attachChild(house1.createHouse(manager,posX));
+  pivot.attachChild(house1.getGeometry());
   pivot.attachChild(quad);
 
         

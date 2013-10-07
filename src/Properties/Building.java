@@ -18,8 +18,8 @@ abstract class Building  {
     int length ;
     ColorRGBA MainColor, secColor ;
     Roof roof;
-    Window windows[];
-    Door dors [];
+  
+  
     
     
 

@@ -5,9 +5,7 @@
 package Properties;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 
 
@@ -28,7 +26,7 @@ public class TestProperies  extends SimpleApplication  {
         flyCam.setMoveSpeed(100f);
 
 Node prop = new Node("Prop");
-Property props = new Property();
+Property props = new Property(assetManager);
 
 prop.attachChild(props.getNode());
 
