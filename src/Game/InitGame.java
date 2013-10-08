@@ -17,21 +17,17 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
-import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.SceneGraphVisitor;
 import com.jme3.scene.Spatial;
-import utilities.World;
 
 /**
  *
  * @author oivhe_000
  */
 public class InitGame extends SimpleApplication implements ActionListener{
+
 
     
     private BulletAppState bulletAppState;
@@ -45,14 +41,17 @@ public class InitGame extends SimpleApplication implements ActionListener{
     
   
   
-    public static void main (String [] args){
-        InitGame app = new InitGame();
-         app.start();
-    }
+//    public static void main (String [] args){
+//        InitGame app = new InitGame();
+//         app.start();
+//    }
 
      
     @Override
     public void simpleInitApp() {
+        
+       
+        
         DirectionalLight dl = new DirectionalLight();
         dl.setDirection(new Vector3f(0, 0, 1));
         rootNode.addLight(dl);
