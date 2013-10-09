@@ -26,7 +26,7 @@ import com.jme3.scene.Spatial;
  *
  * @author oivhe_000
  */
-public class InitGame extends SimpleApplication implements ActionListener{
+public class DEPInitGame extends SimpleApplication implements ActionListener{
 
 
     
@@ -39,6 +39,7 @@ public class InitGame extends SimpleApplication implements ActionListener{
   private Vector3f camDir = new Vector3f();
   private Vector3f camLeft = new Vector3f();
     
+  
   
   
 //    public static void main (String [] args){
@@ -87,6 +88,8 @@ public class InitGame extends SimpleApplication implements ActionListener{
     viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
     flyCam.setMoveSpeed(100);
     setUpKeys();
+   
+    
 
  
 
@@ -201,6 +204,12 @@ public class InitGame extends SimpleApplication implements ActionListener{
        
         inputManager.addMapping(Dir, new KeyTrigger(key));
     }
+
+    
+
+  
+
+    
     
     
 }
