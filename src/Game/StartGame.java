@@ -153,12 +153,10 @@ public void createBox(){
       if (value) { right = true; } else { right = false; }
     } else if (binding.equals("Up")) {
       if (value) { up = true; } else { up = false; }
-      
-      
     } else if (binding.equals("Down")) {
       if (value) { down = true; } else { down = false; }
     } else if (binding.equals("Jump")) {
-      player.jump();
+       player.jump();
     }else if (binding.equals("view")) {
      
         if (!(counter >2)) {
