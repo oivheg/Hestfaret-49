@@ -6,6 +6,7 @@ package Game;
 
 import Data.Data;
 import Effects.Fire;
+import NOTInUSEObserver.Observer;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
@@ -28,22 +29,25 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import java.util.ArrayList;
+
 
 
 /**
  *
  * @author oivhe_000
  */
-public class StartGame implements ActionListener, MouseListener{
+public class StartGame implements ActionListener {
     
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
   private CharacterControl player;
   private InputManager inputManager;
   private FlyByCamera flyCam;
-  private Camera cam;
+  private Camera cam1;
   private Node root = new Node("root");
   private AssetManager m;
   private Vector3f walkDirection = new Vector3f();
@@ -51,14 +55,15 @@ public class StartGame implements ActionListener, MouseListener{
   private Vector3f camDir = new Vector3f();
   private Vector3f camLeft = new Vector3f();
   private String clickedname = "testing";
-
+  private ArrayList<Observer> obsList;
+  private Vector3f camLocation;
     
     public void init(AssetManager manager,AppStateManager stateManager,ViewPort viewPort,FlyByCamera fly,InputManager im,Camera c) {
         m = manager;
         inputManager = im;
         flyCam = fly;
-        cam = c;
-        
+        cam1 = c;
+        obsList = new ArrayList();
          Data data = new Data(m);
          
          bulletAppState = new BulletAppState();
@@ -104,6 +109,13 @@ public class StartGame implements ActionListener, MouseListener{
     
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(player);
+    
+    
+    }
+    
+    public void setVectors(Vector3f lcation){
+        camLocation = lcation;
+       
     }
     
     public Node getRoot(){
@@ -124,6 +136,7 @@ public void createBox(){
 public CharacterControl getPlayer() {
     return player;
 }
+public boolean isplayer;
     public void onAction(String binding, boolean value, float tpf) {
     if (binding.equals("Left")) {
       if (value) { left = true; } else { left = false; }
@@ -138,15 +151,18 @@ public CharacterControl getPlayer() {
     }
     else 
         if (binding.equals("view")) {
-     counter ++;
-        if(!(counter <2)){
-            view=true;
-            test = false;
-        }else{
-           
-            view= false;
-        }
-        
+          isplayer= true;
+       cam1.setLocation(camLocation);
+       flyCam.setDragToRotate(true);
+//     counter ++;
+//        if(!(counter <2)){
+//            view=true;
+//            test = false;
+//        }else{
+//           
+//            view= false;
+//        }
+//        
     }  
     }
 boolean view;
@@ -180,8 +196,8 @@ int counter = 0;
     }
     
      public void updatePos(float tpf) {
-        camDir.set(cam.getDirection()).multLocal(0.6f);
-        camLeft.set(cam.getLeft()).multLocal(0.4f);
+        camDir.set(cam1.getDirection()).multLocal(0.6f);
+        camLeft.set(cam1.getLeft()).multLocal(0.4f);
         walkDirection.set(0, 0, 0);
         if (left) {
             walkDirection.addLocal(camLeft);
@@ -198,68 +214,33 @@ int counter = 0;
         if (view){
 //        player.setWalkDirection(walkDirection);
 //        cam.setLocation(player.getPhysicsLocation());
-        flyCam.setDragToRotate(true);
+//        flyCam.setDragToRotate(true);
+      
         }
         player.setWalkDirection(walkDirection);
     }
     
      
-//     private AnalogListener analogListener = new AnalogListener() {
-//    public void onAnalog(String name, float intensity, float tpf) {
-//      if (name.equals("click")) {
-//        // Reset results list.
-//        CollisionResults results = new CollisionResults();
-//        // Convert screen click to 3d position
-//        Vector2f click2d = inputManager.getCursorPosition();
-//        Vector3f click3d = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 0f).clone();
-//        Vector3f dir = cam.getWorldCoordinates(new Vector2f(click2d.x, click2d.y), 1f).subtractLocal(click3d).normalizeLocal();
-//        
-//        // Aim the ray from the clicked spot forwards.
-//        Ray ray = new Ray(click3d, dir);
-//        Vector3f newPos = ray.getDirection();
-//        // Collect intersections between ray and all nodes in results list.
-//        root.collideWith(ray, results);
-//        // (Print the results so we see what is going on:)
-//        for (int i = 0; i < results.size(); i++) {
-//          // (For each “hit”, we know distance, impact point, geometry.)
-//          float dist = results.getCollision(i).getDistance();
-//          Vector3f pt = results.getCollision(i).getContactPoint();
-//          String target = results.getCollision(i).getGeometry().getName();
-//          
-//          System.out.println("Selection #" + i + ": " + target + " at " + pt + ", " + dist + " WU away.");
-//        }
-//        // Use the results -- we rotate the selected geometry.
-//        if (results.size() > 0) {
-//          // The closest result is the target that the player picked:
-//          Geometry target = results.getClosestCollision().getGeometry();
-//          // Here comes the action:
-//          if (target.getName().equals("Box")) {
-//            clickedname = target.getName();
-//          } else if (target.getName().equals("qube")) {
-//              clickedname = target.getName();
-//           }
-//        }
-//      } // else if ...
-//    }
-//  };
-//     
-    public void mouseClicked(MouseEvent me) {
-      
+//    
+     
+
+    
+     public String GetName() {
+        return clickedname;
+     }
+    public void pickedItem (Geometry target){
+        PointerInfo a = MouseInfo.getPointerInfo();
+        Point b = a.getLocation();
+        System.out.println(" dette er x " + b.x+ " dette er y " + b.y);
+        if (target.getName().equals("Box")) {
+            clickedname = target.getName();
+          
+          } else if (target.getName().equals("qube")) {
+              clickedname = target.getName();
+           }
     }
 
-    public void mousePressed(MouseEvent me) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
+   
 
-    public void mouseReleased(MouseEvent me) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void mouseEntered(MouseEvent me) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void mouseExited(MouseEvent me) {
-        //throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
 }

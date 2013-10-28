@@ -35,7 +35,7 @@ public class Fire {
     fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 2, 0));
     fire.setStartSize(1.5f);
     fire.setEndSize(0.1f);
-    fire.setGravity(1,1,1);
+    fire.setGravity(1,1,0);
     fire.setLowLife(1f);
     fire.setHighLife(3f);
     fire.getParticleInfluencer().setVelocityVariation(0.3f);
