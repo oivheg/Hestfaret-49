@@ -151,18 +151,11 @@ public boolean isplayer;
     }
     else 
         if (binding.equals("view")) {
+            flyCam.setEnabled(true);
           isplayer= true;
        cam1.setLocation(camLocation);
-       flyCam.setDragToRotate(true);
-//     counter ++;
-//        if(!(counter <2)){
-//            view=true;
-//            test = false;
-//        }else{
-//           
-//            view= false;
-//        }
-//        
+       flyCam.setDragToRotate(false);
+       
     }  
     }
 boolean view;
