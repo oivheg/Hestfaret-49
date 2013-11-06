@@ -20,6 +20,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -57,7 +58,7 @@ public class StartGame implements ActionListener {
   private String clickedname = "testing";
   private ArrayList<Observer> obsList;
   private Vector3f camLocation;
-    
+  private  DirectionalLight sun;
     public void init(AssetManager manager,AppStateManager stateManager,ViewPort viewPort,FlyByCamera fly,InputManager im,Camera c) {
         m = manager;
         inputManager = im;
@@ -70,7 +71,12 @@ public class StartGame implements ActionListener {
          stateManager.attach(bulletAppState);
          bulletAppState.getPhysicsSpace().enableDebug(m);
         
-        // We re-use the flyby camera for rotation, while positioning is handled by physics
+       sun = new DirectionalLight();
+       sun.setColor(ColorRGBA.White);
+       sun.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
+       root.addLight(sun);
+         
+         
          viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
          flyCam.setMoveSpeed(100);
          //setUpKeys();
@@ -80,36 +86,12 @@ public class StartGame implements ActionListener {
         landscape = new RigidBodyControl(sceneShape, 0);
         scene.addControl(landscape);
         root.attachChild(scene);
-        int Length = data.lstProperties.size();
-  
-      for (int i = 0; i< Length; i++){
-          Node h3 = new Node(""+i+"");
-          h3.setLocalTranslation(10*i, 5, 5);
-          h3.attachChild(data.lstProperties.get(i).getNode());          
-          root.attachChild(h3);
-      }
-      // fire
-      Fire fire = new Fire(m);
-      Node f = new Node("fire");
-      f.attachChild(fire.GetFire());
-      f.attachChild(fire.GetDebris());
-      f.setLocalTranslation(5, 0, 0);
-      root.attachChild(f);
-   
-    // end fire
-      //finished addint stuff to scene
-      
-     CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
-    
-    player = new CharacterControl(capsuleShape, 0.05f);
-    player.setJumpSpeed(20);
-    player.setFallSpeed(30);
-    player.setGravity(30);
-    player.setPhysicsLocation(new Vector3f(-10, 10, 10));
-    
-    bulletAppState.getPhysicsSpace().add(landscape);
-    bulletAppState.getPhysicsSpace().add(player);
-    
+        //add properties ( blue box on a red quad)
+        addProperties(data);
+        //fire
+        addFire();
+        Physics();
+     //finished addint content to scene
     
     }
     
@@ -233,7 +215,44 @@ int counter = 0;
            }
     }
 
-   
+    private void addProperties(Data data) {
+        int Length = data.lstProperties.size();
+            for (int i = 0; i< Length; i++){
+                Node h3 = new Node(""+i+"");
+                h3.setLocalTranslation(10*i, 5, 5);
+                h3.attachChild(data.lstProperties.get(i).getNode());          
+                root.attachChild(h3);
+            }
+    }
+
+    private void addFire() {
+        // fire
+        Fire fire = new Fire(m);
+        Node f = new Node("fire");
+        f.attachChild(fire.GetFire());
+        f.attachChild(fire.GetDebris());
+        f.setLocalTranslation(5, 0, 0);
+        root.attachChild(f);
+    }
+
+    private void Physics() {
+       
+        
+       CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+      
+      player = new CharacterControl(capsuleShape, 0.05f);
+      player.setJumpSpeed(20);
+      player.setFallSpeed(30);
+      player.setGravity(30);
+      player.setPhysicsLocation(new Vector3f(-10, 10, 10));
+      
+      bulletAppState.getPhysicsSpace().add(landscape);
+      bulletAppState.getPhysicsSpace().add(player);
+    }
+
+   public void changeDay(){
+        sun.setColor(ColorRGBA.Blue);
+    }
 
     
 }
