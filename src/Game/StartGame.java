@@ -30,6 +30,8 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.texture.Texture;
+import com.jme3.util.SkyFactory;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -86,6 +88,16 @@ public class StartGame implements ActionListener {
         landscape = new RigidBodyControl(sceneShape, 0);
         scene.addControl(landscape);
         root.attachChild(scene);
+      //  SkyFactory sky = new SkyFactory();
+//        Texture west,east,south,north,Tup,Tdown;
+//       west = manager.loadTexture("Textures/night/nightsky_west");
+//       east = manager.loadTexture("Textures/night/nightsky_west");
+//       south = manager.loadTexture("Textures/night/nightsky_west");
+//       north = manager.loadTexture("Textures/night/nightsky_west");
+//       Tup = manager.loadTexture("Textures/night/nightsky_west");
+//       Tdown = manager.loadTexture("Textures/night/nightsky_west");
+//        SkyFactory.createSky(manager, west, east, north, south, Tup, Tdown);
+//        root.attachChild(SkyFactory.createSky(manager, west, east, north, south, Tup, Tdown));
         //add properties ( blue box on a red quad)
         addProperties(data);
         //fire
@@ -253,6 +265,8 @@ int counter = 0;
    public void changeDay(){
         sun.setColor(ColorRGBA.Blue);
     }
+
+  
 
     
 }
