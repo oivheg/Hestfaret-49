@@ -65,6 +65,7 @@ public class StartGame implements ActionListener {
         m = manager;
         inputManager = im;
         flyCam = fly;
+       
         cam1 = c;
         obsList = new ArrayList();
          Data data = new Data(m);
@@ -163,7 +164,7 @@ int counter = 0;
         addMaping("Up",   KeyInput.KEY_W);
         addMaping("Down", KeyInput.KEY_S);
         addMaping("Jump", KeyInput.KEY_SPACE);
-        addMaping("view", KeyInput.KEY_Z);
+        addMaping("view", KeyInput.KEY_C);
         //inputManager.addMapping("click", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         
 
@@ -199,6 +200,7 @@ int counter = 0;
             walkDirection.addLocal(camDir.negate());
         }
         if (view){
+            
 //        player.setWalkDirection(walkDirection);
 //        cam.setLocation(player.getPhysicsLocation());
 //        flyCam.setDragToRotate(true);
@@ -219,12 +221,13 @@ int counter = 0;
         PointerInfo a = MouseInfo.getPointerInfo();
         Point b = a.getLocation();
         System.out.println(" dette er x " + b.x+ " dette er y " + b.y);
-        if (target.getName().equals("Box")) {
-            clickedname = target.getName();
-          
-          } else if (target.getName().equals("qube")) {
-              clickedname = target.getName();
-           }
+        clickedname = target.getName();
+//        if (target.getName().equals("Box")) {
+//            clickedname = target.getName();
+//          
+//          } else if (target.getName().equals("qube")) {
+//              clickedname = target.getName();
+//           }
     }
 
     private void addProperties(Data data) {
@@ -243,7 +246,8 @@ int counter = 0;
         Node f = new Node("fire");
         f.attachChild(fire.GetFire());
         f.attachChild(fire.GetDebris());
-        f.setLocalTranslation(5, 0, 0);
+        f.setLocalTranslation(0, 20, 0);
+        
         root.attachChild(f);
     }
 
