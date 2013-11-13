@@ -1,11 +1,11 @@
 package Data;
 
 
+import Movable.objects.vehicle;
 import Properties.Property;
 import com.jme3.asset.AssetManager;
 import java.util.ArrayList;
 import java.util.List;
-import Movable.objects.vehicle;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
