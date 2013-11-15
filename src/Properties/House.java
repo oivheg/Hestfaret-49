@@ -6,6 +6,7 @@ package Properties;
 
 import Moc.Mocs;
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.scene.Geometry;
 
 
@@ -14,9 +15,9 @@ import com.jme3.scene.Geometry;
  class House extends Building {
 
      Geometry theHouse;
-
+Mocs moc = new Mocs();
 public  House(AssetManager manager, int x){
-      Mocs moc = new Mocs();
+      
       
          theHouse = moc.createBox(manager, x);
 }
@@ -27,6 +28,10 @@ public Geometry getGeometry() {
     
     
 }
+ public RigidBodyControl getphy() {
+        return moc.getphy();
+        
+    }
 
      
      

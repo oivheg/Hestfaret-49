@@ -5,6 +5,9 @@
 package Properties;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bullet.collision.shapes.CollisionShape;
+import com.jme3.bullet.control.RigidBodyControl;
+import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -25,7 +28,7 @@ public class Property {
     private Building Buildings [];
     private Node pivot = new Node("pivot");
    public int posX = 0;
-    
+ House house1;
     public void addHouse(AssetManager manager) {
    Spatial house = manager.loadModel("Scenes/rooms/DemoRoom/Ogre3D/DemoRoom.j3o"); 
    pivot.attachChild(house);
@@ -51,15 +54,20 @@ public  Property(AssetManager manager) {
    
    
    quad.rotate(-FastMath.PI / 2, 0, 0);
- 
-    House house1 = new House(manager,posX);
+ quad.addControl((new RigidBodyControl( 1.0f )));
+     house1 = new House(manager,posX);
 
- 
+
   pivot.attachChild(house1.getGeometry());
   pivot.attachChild(quad);
 
         
 }
+
+ public RigidBodyControl getphy() {
+        return house1.getphy();
+        
+    }
 
 
 

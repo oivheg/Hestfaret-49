@@ -21,17 +21,24 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
+import com.jme3.light.PointLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
+import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.Sphere;
+import com.jme3.shadow.DirectionalLightShadowFilter;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.texture.Texture;
 import com.jme3.util.SkyFactory;
+import com.jme3.util.TangentBinormalGenerator;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -47,6 +54,7 @@ public class StartGame implements ActionListener {
     
   private BulletAppState bulletAppState;
   private RigidBodyControl landscape;
+  private RigidBodyControl objects;
   private CharacterControl player;
   private InputManager inputManager;
   private FlyByCamera flyCam;
@@ -61,6 +69,7 @@ public class StartGame implements ActionListener {
   private ArrayList<Observer> obsList;
   private Vector3f camLocation;
   private  DirectionalLight sun;
+  private Vector3f sunDir = new Vector3f(-.10f,-.5f,-.5f).normalizeLocal();
     public void init(AssetManager manager,AppStateManager stateManager,ViewPort viewPort,FlyByCamera fly,InputManager im,Camera c) {
         m = manager;
         inputManager = im;
@@ -73,11 +82,22 @@ public class StartGame implements ActionListener {
          bulletAppState = new BulletAppState();
          stateManager.attach(bulletAppState);
          bulletAppState.getPhysicsSpace().enableDebug(m);
+
+         Sphere sphereMesh = new Sphere(32,32, 2f);
+    Geometry sphereGeo = new Geometry("Shiny rock", sphereMesh);
+    Material mat = new Material(m, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Blue);
+        sphereGeo.setMaterial(mat);
         
-       sun = new DirectionalLight();
-       sun.setColor(ColorRGBA.White);
-       sun.setDirection(new Vector3f(-.5f,-.5f,-.5f).normalizeLocal());
+        root.attachChild(sphereGeo);
+        
+        
+          sun = new DirectionalLight();
+        sun.setColor(ColorRGBA.White);
+        sun.setDirection(sunDir);
        root.addLight(sun);
+ 
+
          
          
          viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
@@ -127,7 +147,12 @@ public void createBox(){
         root.attachChild(geom);
 
 }
-
+public void sunDir(){
+    sunDir.x --;
+//    sunDir.y --;
+//    sunDir.z --;
+    sun.setDirection(sunDir.normalizeLocal());
+}
 public CharacterControl getPlayer() {
     return player;
 }
@@ -222,21 +247,18 @@ int counter = 0;
         Point b = a.getLocation();
         System.out.println(" dette er x " + b.x+ " dette er y " + b.y);
         clickedname = target.getName();
-//        if (target.getName().equals("Box")) {
-//            clickedname = target.getName();
-//          
-//          } else if (target.getName().equals("qube")) {
-//              clickedname = target.getName();
-//           }
+
     }
 
     private void addProperties(Data data) {
         int Length = data.lstProperties.size();
             for (int i = 0; i< Length; i++){
-                Node h3 = new Node(""+i+"");
+                Node h3 = new Node("+i+");
                 h3.setLocalTranslation(10*i, 5, 5);
-                h3.attachChild(data.lstProperties.get(i).getNode());          
+                h3.attachChild(data.lstProperties.get(i).getNode());  
+                 bulletAppState.getPhysicsSpace().add(data.lstProperties.get(i).getphy());
                 root.attachChild(h3);
+                 
             }
     }
 
@@ -264,6 +286,7 @@ int counter = 0;
       
       bulletAppState.getPhysicsSpace().add(landscape);
       bulletAppState.getPhysicsSpace().add(player);
+      
     }
 
    public void changeDay(){
