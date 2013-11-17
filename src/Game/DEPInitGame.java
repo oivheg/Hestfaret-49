@@ -59,7 +59,7 @@ public class DEPInitGame extends SimpleApplication implements ActionListener{
         
         
         Spatial scene = assetManager.loadModel("Scenes/Scene1.j3o");
-            Data data = new Data(assetManager);
+//            Data data = new Data(assetManager);
 //            
 //            final Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
 //            mat.setColor("Color", new ColorRGBA(1.0f, 0f, 0f, 1f));
@@ -110,19 +110,19 @@ public class DEPInitGame extends SimpleApplication implements ActionListener{
     //rootNode.attachChild(props.getNode());
     
     
-   int Length = data.lstProperties.size();
-  
-      
-      
-      for (int i = 0; i< Length; i++){
-          Node h3 = new Node(""+i+"");
-          h3.setLocalTranslation(10*i, 5, 5);
-          h3.attachChild(data.lstProperties.get(i).getNode());
-          
-          rootNode.attachChild(h3);
-          
-          
-      }
+//   int Length = data.lstProperties.size();
+//  
+//      
+//      
+//      for (int i = 0; i< Length; i++){
+//          Node h3 = new Node(""+i+"");
+//          h3.setLocalTranslation(10*i, 5, 5);
+//          h3.attachChild(data.lstProperties.get(i).getNode());
+//          
+//          rootNode.attachChild(h3);
+//          
+//          
+//      }
       
    // fire
       

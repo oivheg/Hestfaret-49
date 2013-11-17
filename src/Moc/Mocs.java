@@ -26,32 +26,25 @@ import com.jme3.scene.shape.Box;
  * @author oivhe_000
  */
 public class Mocs {
-     private RigidBodyControl    brick_phy;
-    
-    public Geometry createBox(AssetManager manager, int x){
-   
-      Box box1 = new Box(1,1,1);
-     Geometry blue = new Geometry("Box",box1);
-     blue.setLocalTranslation(new Vector3f(x,1f,0));
-    
-Material mat1 = new Material(manager,
-        "Common/MatDefs/Misc/Unshaded.j3md");
 
+    private RigidBodyControl brick_phy;
 
-mat1.setColor("Color",ColorRGBA.Blue);
-     blue.setMaterial(mat1);
-    
-     brick_phy = new RigidBodyControl(2f);
-    
-     blue.addControl(brick_phy);
-     
-         return blue;
-    
+    public Geometry createBox(AssetManager manager, int x) {
+
+        Box box1 = new Box(1, 1, 1);
+        Geometry box = new Geometry("Box", box1);
+        box.setLocalTranslation(new Vector3f(x, 1f, 0));
+
+        Material mat1 = new Material(manager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat1.setColor("Color", ColorRGBA.Blue);
+        box.setMaterial(mat1);
+        brick_phy = new RigidBodyControl(2f);
+        box.addControl(brick_phy);
+        return box;
     }
-    
     public RigidBodyControl getphy() {
         return brick_phy;
-        
+
     }
-    
 }
