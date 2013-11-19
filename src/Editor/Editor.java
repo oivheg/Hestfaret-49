@@ -174,7 +174,13 @@ boolean istrue;
         if (game != null) {
  
             updatePos(tpf);
-            game.moveCollector(tpf);
+            
+            if (game.removeGeometry()) {
+                pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
+                pickedGeometry.removeFromParent();
+            }else{
+                game.moveCollector(tpf, pickedGeometry);
+            }
              }
         // this updates the label field in the hud to match what item is clicked ( will be selectet at a later point)
         if (nifty != null && "hud".equals(nifty.getCurrentScreen().getScreenId())) {
@@ -328,7 +334,7 @@ boolean istrue;
 //            game.sunDir();
              Vector3f geoPos = pickedGeometry.getWorldTranslation();
                 game.setEndPos(geoPos);
-            game.runcollector(tpf);
+            game.runCollector();
             istrue = true;
 //            changeDay();
         }
