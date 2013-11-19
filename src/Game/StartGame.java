@@ -6,7 +6,6 @@ package Game;
 
 import Data.Data;
 import Effects.Fire;
-import NOTInUSEObserver.Observer;
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.AnimEventListener;
@@ -25,14 +24,14 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import java.util.ArrayList;
 
 /**
  *
@@ -54,7 +53,6 @@ public class StartGame implements ActionListener, AnimEventListener {
     private Vector3f camDir = new Vector3f();
     private Vector3f camLeft = new Vector3f();
     private String clickedname = "testing";
-    private ArrayList<Observer> obsList;
     private Vector3f camLocation;
     private DirectionalLight sun;
     private Vector3f sunDir = new Vector3f(-.10f, -.5f, -.5f).normalizeLocal();
@@ -66,7 +64,7 @@ public class StartGame implements ActionListener, AnimEventListener {
         inputManager = im;
         flyCam = fly;
         cam1 = c;
-        obsList = new ArrayList();
+
         data = new Data(assetM, 3, 4);
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
@@ -156,7 +154,7 @@ public class StartGame implements ActionListener, AnimEventListener {
         addMaping("Down", KeyInput.KEY_S);
         addMaping("Jump", KeyInput.KEY_SPACE);
         addMaping("view", KeyInput.KEY_C);
- 
+
         inputManager.addListener(this, "Left");
         inputManager.addListener(this, "Right");
         inputManager.addListener(this, "Up");
@@ -194,7 +192,6 @@ public class StartGame implements ActionListener, AnimEventListener {
         }
         player.setWalkDirection(walkDirection);
     }
-
 
     public String GetName() {
         return clickedname;
@@ -256,15 +253,38 @@ public class StartGame implements ActionListener, AnimEventListener {
         sun.setColor(ColorRGBA.Blue);
     }
     private AnimChannel channel;
+    private AnimChannel pickChannel;
     private AnimControl control;
     Node collectorNode;
+    boolean pickUp;
 
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-        if (!shoudMove) {
-            channel.setAnim("Dodge", 0.50f);
+        
+            
+        
+        if (!shoudMove && animName.equals("Walk")) {
+            
+            if (!haveItem){
+            channel.setAnim("Dodge", 1f);
+            pickUp = true;
+            channel.setSpeed(0.1f);
+            pickChannel.setAnim("walkGun", 1f);
+            
+            }else {
+                haveItem = false;
+                channel.setAnim("stand", 1f);
+                pickChannel.setLoopMode(LoopMode.DontLoop);
+            }
             channel.setLoopMode(LoopMode.DontLoop);
-            channel.setSpeed(1f);
+            
         }
+        if (pickUp && animName.equals("Dodge")) {
+            pickUp = false;
+            runCollector();
+        }
+       
+            
+       
     }
 
     public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
@@ -291,35 +311,60 @@ public class StartGame implements ActionListener, AnimEventListener {
         control = collectorNode.getControl(AnimControl.class);
         control.addListener(this);
         channel = control.createChannel();
+        pickChannel = control.createChannel();
         channel.setAnim("stand");
         root.attachChild(collectorNode);
     }
 
-    public void moveCollector(float tpf) {
-        currentPos = collector.getPhysicsLocation();
-        System.out.println("collector pos" + currentPos);
-        currentPos = collectorNode.getLocalTranslation();
-        Vector3f step;
-        if (shoudMove){
-            if (collectorNode.getLocalTranslation().distance(end) >= 5) {
-            step = new Vector3f(end).subtract(currentPos);
-            step.normalizeLocal();
-            step.multLocal(0.1f);
-            step.setY(0f);
-            collector.setWalkDirection(step);
-            collector.setViewDirection(step);
-            System.out.println(" step ing " + step + "");
-        } else {
-            step = new Vector3f(0.0f, 0.0f, 0.0f);
-            shoudMove = false;
-            collector.setWalkDirection(step);
-        }
+    public void moveCollector(float tpf, Geometry pickedGeometry) {
+             currentPos = collector.getPhysicsLocation();
+            System.out.println("collector pos" + currentPos);
+            currentPos = collectorNode.getLocalTranslation();
+            Vector3f step;
+       
+           
+            if (shoudMove && collectorNode.getLocalTranslation().distance(end) >= 5) {
+                step = new Vector3f(end).subtract(currentPos);
+                step.normalizeLocal();
+                step.multLocal(0.1f);
+                step.setY(0f);
+                collector.setWalkDirection(step);
+                collector.setViewDirection(step);
+                System.out.println(" step ing " + step + "");
+            } else {
+                step = new Vector3f(0.0f, 0.0f, 0.0f);
+                shoudMove = false;
+                collector.setWalkDirection(step);
+            }
+        
+        if (pickUp) {
+            Vector3f pos = pickedGeometry.getLocalTranslation();
+            Material mat = pickedGeometry.getMaterial();
+            mat.setColor("Color", ColorRGBA.Red); 
+            end = new Vector3f(10, 5, 5);
+            pickedGeometry.setMaterial(mat);
+            
+            
+            Vector3f tmp = currentPos;
+            tmp.x += 10;
+            
+          
+           removeGeometry = true;
+      
+           
+            haveItem = true;
+            
         }
     }
-
-    public void runcollector(float tpf) {
+    boolean removeGeometry;
+    public boolean removeGeometry(){
+        return removeGeometry;
+    }
+boolean haveItem;
+    public void runCollector() {
+        removeGeometry = false;
         start = collector.getPhysicsLocation();
-        channel.setAnim("Walk", 0.1f);
+        channel.setAnim("Walk", 1f);
         channel.setLoopMode(LoopMode.Loop);
         shoudMove = true;
 
