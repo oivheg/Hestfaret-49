@@ -59,54 +59,41 @@ public class StartGame implements ActionListener, AnimEventListener {
     private DirectionalLight sun;
     private Vector3f sunDir = new Vector3f(-.10f, -.5f, -.5f).normalizeLocal();
     private Data data;
-    private Node collector;
+    private CharacterControl collector;
 
-    public void init(AssetManager manager, AppStateManager stateManager, ViewPort viewPort, FlyByCamera fly, InputManager im, Camera c) {
+    public StartGame(AssetManager manager, AppStateManager stateManager, ViewPort viewPort, FlyByCamera fly, InputManager im, Camera c) {
         assetM = manager;
         inputManager = im;
         flyCam = fly;
         cam1 = c;
         obsList = new ArrayList();
         data = new Data(assetM, 3, 4);
-
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.getPhysicsSpace().enableDebug(assetM);
-
-
-
-
-
 
         sun = new DirectionalLight();
         sun.setColor(ColorRGBA.White);
         sun.setDirection(sunDir);
         root.addLight(sun);
-
-
-
-
         viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
         flyCam.setMoveSpeed(100);
-
         Spatial scene = assetM.loadModel("Scenes/Scene1.j3o");
         CollisionShape sceneShape = CollisionShapeFactory.createMeshShape((Node) scene);
 
         landscape = new RigidBodyControl(sceneShape, 0);
         scene.addControl(landscape);
         root.attachChild(scene);
-        createCollector();
         addObjects();
         //fire
         addFire();
         Physics();
+        createCollector();
         //finished addint content to scene
-
     }
 
     public void setVectors(Vector3f lcation) {
         camLocation = lcation;
-
     }
 
     public Node getRoot() {
@@ -115,8 +102,6 @@ public class StartGame implements ActionListener, AnimEventListener {
 
     public void sunDir() {
         sunDir.x--;
-//    sunDir.y --;
-//    sunDir.z --;
         sun.setDirection(sunDir.normalizeLocal());
     }
 
@@ -157,7 +142,6 @@ public class StartGame implements ActionListener, AnimEventListener {
             isplayer = true;
             cam1.setLocation(camLocation);
             flyCam.setDragToRotate(false);
-
         }
     }
     boolean view;
@@ -172,16 +156,13 @@ public class StartGame implements ActionListener, AnimEventListener {
         addMaping("Down", KeyInput.KEY_S);
         addMaping("Jump", KeyInput.KEY_SPACE);
         addMaping("view", KeyInput.KEY_C);
-        //inputManager.addMapping("click", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
-
-
+ 
         inputManager.addListener(this, "Left");
         inputManager.addListener(this, "Right");
         inputManager.addListener(this, "Up");
         inputManager.addListener(this, "Down");
         inputManager.addListener(this, "Jump");
         inputManager.addListener(this, "view");
-//    inputManager.addListener(analogListener, "click");
 
     }
 
@@ -211,21 +192,13 @@ public class StartGame implements ActionListener, AnimEventListener {
 //        cam.setLocation(player.getPhysicsLocation());
 //        flyCam.setDragToRotate(true);
         }
-
         player.setWalkDirection(walkDirection);
     }
 
-//    
+
     public String GetName() {
         return clickedname;
     }
-//    public void pickedItem (Geometry target){
-//        PointerInfo a = MouseInfo.getPointerInfo();
-//        Point b = a.getLocation();
-//        System.out.println(" dette er x " + b.x+ " dette er y " + b.y);
-//        clickedname = target.getName();
-//
-//    }
 
     private void addObjects() {
 
@@ -236,7 +209,6 @@ public class StartGame implements ActionListener, AnimEventListener {
             h3.attachChild(data.getObjects().get(i));
 
             root.attachChild(h3);
-
         }
     }
 
@@ -252,20 +224,32 @@ public class StartGame implements ActionListener, AnimEventListener {
     }
 
     private void Physics() {
-
-
-        CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
-        setPlayerPhy(capsuleShape);
         data.setPhysics();
-
+        setPlayerPhy();
+        setCollectorPhy();
         bulletAppState.getPhysicsSpace().add(landscape);
         bulletAppState.getPhysicsSpace().add(player);
-
+        bulletAppState.getPhysicsSpace().add(collector);
         for (int i = 0; i < data.getObjects().size(); i++) {
             bulletAppState.getPhysicsSpace().add(data.getObjects().get(i));
         }
+    }
 
+    private void setCollectorPhy() {
+        CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+        collector = new CharacterControl(capsuleShape, 0.05f);
+        collector.setJumpSpeed(20);
+        collector.setFallSpeed(30);
+        collector.setGravity(30);
+    }
 
+    private void setPlayerPhy() {
+        CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
+        player = new CharacterControl(capsuleShape, 0.05f);
+        player.setJumpSpeed(20);
+        player.setFallSpeed(30);
+        player.setGravity(30);
+        player.setPhysicsLocation(new Vector3f(-10, 10, 10));
     }
 
     public void changeDay() {
@@ -273,27 +257,14 @@ public class StartGame implements ActionListener, AnimEventListener {
     }
     private AnimChannel channel;
     private AnimControl control;
-
-    private void createCollector() {
-        collector = (Node) assetM.loadModel("Models/Oto/Oto.mesh.xml");
-        collector.setLocalTranslation(0, 5, 5);
-        root.attachChild(collector);
-        control = collector.getControl(AnimControl.class);
-        control.addListener(this);
-        channel = control.createChannel();
-        channel.setAnim("stand");
-    }
+    Node collectorNode;
 
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-//         if (animName.equals("Walk")) {
-//             
-//      channel.setAnim("stand", 0.50f);
-////      channel.setLoopMode(LoopMode.DontLoop);
-//      channel.setSpeed(1f);
-//      if(currentPos.x < distance.x){
-//            collector.setLocalTranslation(currentPos.x + 2, currentPos.y, currentPos.z);
-//        }
-//    }
+        if (!shoudMove) {
+            channel.setAnim("Dodge", 0.50f);
+            channel.setLoopMode(LoopMode.DontLoop);
+            channel.setSpeed(1f);
+        }
     }
 
     public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
@@ -303,53 +274,54 @@ public class StartGame implements ActionListener, AnimEventListener {
     Vector3f desiredPos = new Vector3f(10, 10, 10);
     Vector3f distance = new Vector3f(0, 0, 0);
     float time = 0f;
-
-    public void simpleUpdate(float tpf) {
-//        if (time < 10) {
-//            collector.move(10/tpf, 0, 0);
-//           
-//            time += tpf;
-//        }
-    }
-    private boolean shouldMove = true;
+    private boolean shoudMove = false;
     private float count = 0;
     private Vector3f start;
     private Vector3f end = new Vector3f(10, 5, 5);
-public void setEndPos(Vector3f pos){
-    end.x = pos.x;
-}
-    public void update(float tpf) {
-        
-        if (shouldMove) {
-            count += tpf / 10; //this will make it take 10 seconds to reach the end, from the the start
-            Vector3f newLocation = FastMath.interpolateLinear(count, start, end);
-            collector.setLocalTranslation(newLocation);
-            if (count >= 1) //then you reached the end
-            {
-                shouldMove = false;
-            }
+
+    public void setEndPos(Vector3f pos) {
+        end = pos;
+    }
+
+    private void createCollector() {
+
+        collectorNode = (Node) assetM.loadModel("Models/Otto/Oto.mesh.xml");
+        collectorNode.setLocalTranslation(new Vector3f(-10, 10, 10));
+        collectorNode.addControl(collector);
+        control = collectorNode.getControl(AnimControl.class);
+        control.addListener(this);
+        channel = control.createChannel();
+        channel.setAnim("stand");
+        root.attachChild(collectorNode);
+    }
+
+    public void moveCollector(float tpf) {
+        currentPos = collector.getPhysicsLocation();
+        System.out.println("collector pos" + currentPos);
+        currentPos = collectorNode.getLocalTranslation();
+        Vector3f step;
+        if (shoudMove){
+            if (collectorNode.getLocalTranslation().distance(end) >= 5) {
+            step = new Vector3f(end).subtract(currentPos);
+            step.normalizeLocal();
+            step.multLocal(0.1f);
+            step.setY(0f);
+            collector.setWalkDirection(step);
+            collector.setViewDirection(step);
+            System.out.println(" step ing " + step + "");
+        } else {
+            step = new Vector3f(0.0f, 0.0f, 0.0f);
+            shoudMove = false;
+            collector.setWalkDirection(step);
+        }
         }
     }
 
-    
-
     public void runcollector(float tpf) {
-        start = collector.getLocalTranslation();
-        channel.setAnim("Walk", 1f);
+        start = collector.getPhysicsLocation();
+        channel.setAnim("Walk", 0.1f);
         channel.setLoopMode(LoopMode.Loop);
+        shoudMove = true;
 
-
-
-
-
-//       collector.setLocalTranslation(pos.x , pos.y ,pos.z + 5);
-    }
-
-    private void setPlayerPhy(CapsuleCollisionShape capsuleShape) {
-        player = new CharacterControl(capsuleShape, 0.05f);
-        player.setJumpSpeed(20);
-        player.setFallSpeed(30);
-        player.setGravity(30);
-        player.setPhysicsLocation(new Vector3f(-10, 10, 10));
     }
 }
