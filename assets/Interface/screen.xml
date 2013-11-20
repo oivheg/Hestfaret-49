@@ -52,29 +52,59 @@
                 </panel>
                 <panel id="panel_top_right2" width="100%" height="15%" childLayout="vertical"
                backgroundColor="#44f8"> 
-           
-                    <control  id="x" name="textfield" color="#000" text="x coord"  backgroundColor="#00f8"> 
+           <panel id="Width" childLayout="horizontal">
+                <control name="label" text="Width:   "></control>  
+                <control  id="x" name="textfield" color="#000" text="x coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
-                    <control  id="y" name="textfield" color="#000" text="y coord"  backgroundColor="#00f8"> 
+           </panel>
+            <panel id="Height" childLayout="horizontal">
+                 <control name="label" text="Height:   "></control>  
+               <control  id="y" name="textfield" color="#000" text="y coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
-                    <control  id="z" name="textfield"   color="#000" text="z coord"  backgroundColor="#00f8"> 
+           </panel>
+            <panel id="Depth" childLayout="horizontal">
+                 <control name="label" text="Depth:   "></control>  
+               <control  id="z" name="textfield"   color="#000" text="z coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
-           
-        
-           
+           </panel>
+                 
                 </panel>
                 <panel id="panel_bot_right" width="100%" height="70%" childLayout="vertical"
                backgroundColor="#88f8">  
                     <control name="button" label="Night" id="DayNight" align="center" valign="center"> </control>
-                    <panel id="Gravity" childLayout="horizontal">
-                        <control name="label" text="Gravity"></control>    
-                        <control name="checkbox" label="Night" id="gravity" align="center" valign="center"> </control>
+                    <panel id="Gravity" childLayout="horizontal" padding="5px">
+                        <control name="label" text="Gravity:  "></control>    
+                        <control name="checkbox" label="Night" id="gravity" align="center" valign="center"> </control>  
                     </panel>
-           
-            
+           <panel id="Gx" childLayout="horizontal">
+                <control name="label" text="SideWays:   "></control>  
+                <control  id="gX" name="textfield" color="#000" text="x coord"  backgroundColor="#00f8"> 
+                        <interact onClick="test()"/> 
+                    </control>
+           </panel>
+            <panel id="Gy" childLayout="horizontal">
+                 <control name="label" text="UP/Down:   "></control>  
+               <control  id="gY" name="textfield" color="#000" text="y coord"  backgroundColor="#00f8"> 
+                        <interact onClick="test()"/> 
+                    </control>
+           </panel>
+            <panel id="Gz" childLayout="horizontal">
+                 <control name="label" text="Back/Fourth:   "></control>  
+               <control  id="gZ" name="textfield"   color="#000" text="z coord"  backgroundColor="#00f8"> 
+                        <interact onClick="test()"/> 
+                    </control>
+           </panel>
+            <panel id="ResetGravity" childLayout="horizontal">
+                 <control name="label" text="Reset All Gravity:   "></control>  
+              <control name="button" label="Reset" id="resetG" align="center" valign="center"> </control>
+           </panel>
+           <panel id="ResetAll" childLayout="horizontal">
+                 <control name="label" text="Reset Game:   "></control>  
+              <control name="button" label="Reset" id="resetA" align="center" valign="center"> </control>
+           </panel>
                 </panel>
             </panel>
       

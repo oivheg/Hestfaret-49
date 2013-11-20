@@ -4,7 +4,6 @@
  */
 package Editor.Screens;
 
-
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
@@ -17,42 +16,30 @@ import de.lessvoid.nifty.screen.ScreenController;
  *
  * @author oivhe_000
  */
-public class StartScreen  extends AbstractAppState implements ScreenController {
-
+public class StartScreen extends AbstractAppState implements ScreenController {
     private Nifty nifty;
-  private Screen screen;
-  private SimpleApplication app;
-  
- 
-    
-    /** Nifty GUI ScreenControl methods */ 
+    private Screen screen;
+    private SimpleApplication app;
+
+    /**
+     * Nifty GUI ScreenControl methods
+     */
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
-    this.screen = screen;
-    
-    
+        this.screen = screen;
     }
-
-  
-    
-    
     public void onStartScreen() {
-       // throw new UnsupportedOperationException("Not supported yet.");
+        // throw new UnsupportedOperationException("Not supported yet.");
     }
-
     public void onEndScreen() {
-       // throw new UnsupportedOperationException("Not supported yet.");
+        // throw new UnsupportedOperationException("Not supported yet.");
     }
-     @Override
-  public void initialize(AppStateManager stateManager, Application app) {
-    super.initialize(stateManager, app);
-    this.app=(SimpleApplication)app;
-  }
-    
-     public void startGame(String nextScreen) {
-    nifty.gotoScreen(nextScreen);  // switch to another screen
-    
-   
-  }
-    
+    @Override
+    public void initialize(AppStateManager stateManager, Application app) {
+        super.initialize(stateManager, app);
+        this.app = (SimpleApplication) app;
+    }
+    public void startGame(String nextScreen) {
+        nifty.gotoScreen(nextScreen);  // switch to another screen
+    }
 }

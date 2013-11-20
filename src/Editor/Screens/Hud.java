@@ -15,47 +15,38 @@ import de.lessvoid.nifty.screen.ScreenController;
  * @author oivhe_000
  */
 public class Hud extends AbstractAppState implements ScreenController {
-    
+
     private Nifty nifty;
-  private Screen screen;
+    private Screen screen;
 
-    
- 
     public void bind(Nifty nifty, Screen screen) {
-       this.nifty = nifty;
-    this.screen = screen;
-   
-       
-      
-    
-    }
+        this.nifty = nifty;
+        this.screen = screen;
+}
 
-    public void test(){
-       Element field = nifty.getCurrentScreen().findElementByName("x");
-       
-       
+    public void test() {
+        Element field = nifty.getCurrentScreen().findElementByName("x");
         if (field.isIgnoreKeyboardEvents()) {
-           field.setIgnoreKeyboardEvents(false);
-           field.setFocus();
-
-       }else {
+            field.setIgnoreKeyboardEvents(false);
+            field.setFocus();
+        } else {
             field.setIgnoreKeyboardEvents(true);
-
         }
-       
     }
+
     public boolean isDay() {
         return isDay;
     }
     boolean isDay = false;
-    public void changeDay(){
-         if(isDay){
-             isDay = false;
-         }else {
-             isDay = true;
-         }
-        
+
+    public void changeDay() {
+        if (isDay) {
+            isDay = false;
+        } else {
+            isDay = true;
+        }
     }
+
     public void onStartScreen() {
 //        throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -63,5 +54,4 @@ public class Hud extends AbstractAppState implements ScreenController {
     public void onEndScreen() {
 //        throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }
