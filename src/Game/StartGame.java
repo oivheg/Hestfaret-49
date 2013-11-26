@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package Game;
+
 import Data.Data;
 import Effects.Fire;
 import com.jme3.animation.AnimChannel;
@@ -33,6 +34,9 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.util.SkyFactory;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author oivhe_000
@@ -49,10 +53,11 @@ public class StartGame implements ActionListener, AnimEventListener {
     private AssetManager assetM;
     private Vector3f walkDirection = new Vector3f();
     private boolean left = false, right = false, up = false, down = false;
-    private Vector3f camDir= new Vector3f(), camLeft= new Vector3f(), camLocation= new Vector3f(), sunDir= new Vector3f();
+    private Vector3f camDir = new Vector3f(), camLeft = new Vector3f(), camLocation = new Vector3f(), sunDir = new Vector3f();
     private String clickedname;
     private DirectionalLight sun;
     private Data data;
+    int NumberGeometries;
 
     public StartGame(AssetManager manager, AppStateManager stateManager, ViewPort viewPort, FlyByCamera fly, InputManager im, Camera c) {
         assetM = manager;
@@ -60,15 +65,16 @@ public class StartGame implements ActionListener, AnimEventListener {
         flyCam = fly;
         cam1 = c;
         flyCam.setMoveSpeed(100);
-        
+
         data = new Data(assetM, 3, 4);
+
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
         bulletAppState.getPhysicsSpace().enableDebug(assetM);
         clickedname = "testing";
-        
+
         root.attachChild(SkyFactory.createSky(
-            assetM, "Textures/Sky/Bright/BrightSky.dds", false));
+                assetM, "Textures/Sky/Bright/BrightSky.dds", false));
 //        viewPort.setBackgroundColor(new ColorRGBA(0.7f, 0.8f, 1f, 1f));
         configureSun();
         configureScene();
@@ -77,6 +83,7 @@ public class StartGame implements ActionListener, AnimEventListener {
         addFire();
         Physics();
         createCollector();
+        setPickedGeom();
         //finished addint content to scene
     }
 
@@ -92,6 +99,7 @@ public class StartGame implements ActionListener, AnimEventListener {
         sunDir.x--;
         sun.setDirection(sunDir.normalizeLocal());
     }
+
     public CharacterControl getPlayer() {
         return player;
     }
@@ -99,13 +107,29 @@ public class StartGame implements ActionListener, AnimEventListener {
 
     public void onAction(String binding, boolean value, float tpf) {
         if (binding.equals("Left")) {
-            if (value) {left = true;} else {left = false;}
+            if (value) {
+                left = true;
+            } else {
+                left = false;
+            }
         } else if (binding.equals("Right")) {
-            if (value) {right = true;} else {right = false;}
+            if (value) {
+                right = true;
+            } else {
+                right = false;
+            }
         } else if (binding.equals("Up")) {
-            if (value) {up = true;} else {up = false;}
+            if (value) {
+                up = true;
+            } else {
+                up = false;
+            }
         } else if (binding.equals("Down")) {
-            if (value) {down = true;} else {down = false;}
+            if (value) {
+                down = true;
+            } else {
+                down = false;
+            }
         } else if (binding.equals("Jump")) {
             player.jump();
         } else if (binding.equals("view")) {
@@ -174,11 +198,12 @@ public class StartGame implements ActionListener, AnimEventListener {
 
         int Length = data.getObjects().size();
         for (int i = 0; i < Length; i++) {
-            Node h3 = new Node("+i+");
-            h3.setLocalTranslation(10 * i, 5, 5);
-            h3.attachChild(data.getObjects().get(i));
-            root.attachChild(h3);
+
+            data.getObjects().get(i).setLocalTranslation(10 * i, 5, 5);
+
+            root.attachChild(data.getObjects().get(i));
         }
+
     }
 
     private void addFire() {
@@ -187,11 +212,11 @@ public class StartGame implements ActionListener, AnimEventListener {
         Node f = new Node("fire");
         f.attachChild(fire.getFire());
         f.attachChild(fire.getDebris());
-        f.setLocalTranslation(0, 20, 0);
+        f.setLocalTranslation(10, 7, 5);
         root.attachChild(f);
     }
 
-    private void Physics() {        
+    private void Physics() {
         data.setPhysics();
         setPlayerPhy();
         setCollectorPhy();
@@ -199,19 +224,19 @@ public class StartGame implements ActionListener, AnimEventListener {
         bulletAppState.getPhysicsSpace().add(player);
         bulletAppState.getPhysicsSpace().add(collector);
         for (int i = 0; i < data.getObjects().size(); i++) {
-            bulletAppState.getPhysicsSpace().add(data.getObjects().get(i));
+            bulletAppState.getPhysicsSpace().add(data.getObjects().get(i).getChild(0));
         }
         bulletAppState.setDebugEnabled(false);
     }
 
     private void setCollectorPhy() {
-        
+
         CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 6f, 1);
         collector = new CharacterControl(capsuleShape, 0.05f);
         collector.setJumpSpeed(20);
         collector.setFallSpeed(30);
         collector.setGravity(30);
-        
+
     }
 
     private void setPlayerPhy() {
@@ -241,21 +266,32 @@ public class StartGame implements ActionListener, AnimEventListener {
                 pickUp = true;
                 channel.setSpeed(0.1f);
                 pickChannel.setAnim("walkGun", 1f);
-                
+
             } else {
+
                 haveItem = false;
                 channel.setAnim("stand", 1f);
                 pickChannel.reset(true);
-                removeGeometry = true;
+               
                 
+//               
+                restart = true;
+                System.out.println("LAST");
+//                removeGeometry = true;
+                
+                 removeGeom();
             }
             channel.setLoopMode(LoopMode.DontLoop);
         }
         if (pickUp && animName.equals("Dodge")) {
             pickUp = false;
+            System.out.println("Almoust Last");
             runCollector();
         }
+        if (animName.equals("stand")) {
+        }
     }
+    boolean restart;
 
     public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
         //throw new UnsupportedOperationException("Not supported yet.");
@@ -270,9 +306,13 @@ public class StartGame implements ActionListener, AnimEventListener {
     private Vector3f end = new Vector3f(10, 5, 5);
 
     public void setEndPos(Vector3f pos) {
-        end = pos;
+//        end = data.getObjects().get(geoCounter).getWorldTranslation();
+        if (pos != null) {
+            end = pos;
+        }
+
     }
-    
+
     private void createCollector() {
 
         collectorNode = (Node) assetM.loadModel("Models/Otto/Oto.mesh.xml");
@@ -286,31 +326,74 @@ public class StartGame implements ActionListener, AnimEventListener {
         pickChannel = control.createChannel();
         channel.setAnim("stand");
         root.attachChild(collectorNode);
+
+    }
+    public Node pickedItem;
+    private int geoCounter = 0;
+    Geometry testGeom;
+    List<Geometry> geomInScene = new ArrayList<Geometry>();
+
+   
+
+    private void setPickedGeom() {
+        System.out.println("HAS BEEN RUN " + geoCounter);
+        NumberGeometries = data.getObjects().size() -1;
+        System.out.println("FROM DATA LIST" + NumberGeometries);
+        if (NumberGeometries >= 0 ) {
+            testGeom = (Geometry) data.getObjects().get(NumberGeometries).getChild(0);
+            System.out.println("geoemtries" + testGeom);
+            end = testGeom.getWorldTranslation();
+            geoCounter++;
+//            NumberGeometries --;
+        } else {
+            end = new Vector3f(10, 5, 5);
+        }
     }
 
     public void moveCollector(float tpf, Geometry pickedGeometry) {
+       
+            
+          if (restart) {
+            runCollector();
+            restart = false;
+        }  
+        
+        
+        if (pickedGeometry == null) {
+
+            pickedGeometry = testGeom;
+//           end = testGeom.getWorldTranslation();
+        }
+
+
         currentPos = collector.getPhysicsLocation();
 //        System.out.println("collector pos" + currentPos);
         currentPos = collectorNode.getLocalTranslation();
         Vector3f step;
-        if (shoudMove && collectorNode.getLocalTranslation().distance(end) >=5) {
+        if (shoudMove && collectorNode.getLocalTranslation().distance(end) >= 5) {
+//            System.out.println("Destinasjon" + end);
+//            System.out.println("Lokasjon" + currentPos);
+//            System.out.println("dist" + collectorNode.getLocalTranslation().distance(end));
             step = new Vector3f(end).subtract(currentPos);
             step.normalizeLocal();
-            step.multLocal(0.1f);
+            step.multLocal(1f);
             step.setY(0f);
             collector.setWalkDirection(step);
             collector.setViewDirection(step);
-            System.out.println(" step ing " + step + "");
+//            System.out.println(" step ing " + step + "");
         } else {
             step = new Vector3f(0.0f, 0.0f, 0.0f);
             shoudMove = false;
             collector.setWalkDirection(step);
+
         }
         if (pickUp) {
-            
+
             SkeletonControl skeletonControl = collectorNode.getControl(SkeletonControl.class);
-            pickedGeometry.move(20,0,0);
-            Node pickedItem = skeletonControl.getAttachmentsNode("arm.left");
+//            pickedGeometry.move(1, 2, 0);
+
+            pickedGeometry.setLocalTranslation(1, 2, 0);
+            pickedItem = skeletonControl.getAttachmentsNode("hand.left");
             pickedItem.attachChild(pickedGeometry);
             pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
             pickedGeometry.getControl(RigidBodyControl.class).setKinematic(true);
@@ -321,22 +404,27 @@ public class StartGame implements ActionListener, AnimEventListener {
             pickedGeometry.setMaterial(mat);
             Vector3f tmp = currentPos;
             tmp.x += 10;
-            
+
             haveItem = true;
         }
     }
     boolean removeGeometry;
+
     public boolean removeGeometry() {
         return removeGeometry;
     }
-    public void resetRemovedGeometry(){
+
+    public void resetRemovedGeometry() {
         removeGeometry = false;
     }
     boolean haveItem;
+
     public void runCollector() {
+        
         removeGeometry = false;
         start = collector.getPhysicsLocation();
-        channel.setAnim("Walk", 0.5f);
+        channel.setAnim("Walk", 0.1f);
+        channel.setSpeed(7);
         channel.setLoopMode(LoopMode.Loop);
         shoudMove = true;
     }
@@ -355,5 +443,12 @@ public class StartGame implements ActionListener, AnimEventListener {
         landscape = new RigidBodyControl(sceneShape, 0);
         scene.addControl(landscape);
         root.attachChild(scene);
+    }
+
+    private void removeGeom() {
+       pickedItem.getChild(0).removeFromParent();
+        data.getObjects().remove(data.getObjects().get(NumberGeometries));
+        setPickedGeom();
+        runCollector();
     }
 }

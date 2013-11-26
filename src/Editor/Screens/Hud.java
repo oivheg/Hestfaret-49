@@ -25,7 +25,7 @@ public class Hud extends AbstractAppState implements ScreenController {
 }
 
     public void test() {
-        Element field = nifty.getCurrentScreen().findElementByName("x");
+        Element field = nifty.getCurrentScreen().findElementByName("width");
         if (field.isIgnoreKeyboardEvents()) {
             field.setIgnoreKeyboardEvents(false);
             field.setFocus();

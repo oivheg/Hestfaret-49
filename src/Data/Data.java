@@ -15,28 +15,32 @@ import java.util.List;
  */
 public class Data {
 
-    private List<Geometry> lstObjects = new ArrayList<Geometry>();
+    private List<Node> lstObjects = new ArrayList<Node>();
 
     public Data(AssetManager manager, int boxes, int spheres) {
         Objects objects = new Objects(manager);
         for (int i = 0; i < boxes; i++) {
+            Node box = new Node("box" + i);
+            box.attachChild(objects.createObject(i, ColorRGBA.Green, "box"));
+            lstObjects.add(box);
 
-
-            lstObjects.add(objects.createObject(i, ColorRGBA.Blue, "box"));
+           
         }
         for (int i = 0; i < spheres; i++) {
             Node sphere = new Node("sphere" + i);
-            lstObjects.add(objects.createObject(i, ColorRGBA.Blue, "sphere"));
+            sphere.attachChild(objects.createObject(i, ColorRGBA.Blue, "sphere"));
+            lstObjects.add(sphere);
         }
     }
 
     public void setPhysics() {
         for (int i = 0; i < lstObjects.size(); i++) {
             RigidBodyControl brick_phy = new RigidBodyControl(2f);
-            lstObjects.get(i).addControl(brick_phy);
+            lstObjects.get(i).getChild(0).addControl(brick_phy);
         }
     }
-    public List<Geometry> getObjects() {
+
+    public List<Node> getObjects() {
         return lstObjects;
     }
 }

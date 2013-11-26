@@ -16,6 +16,7 @@ import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Line;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -40,11 +41,11 @@ public class Editor extends SimpleApplication implements ActionListener {
     private Vector3f camDir = new Vector3f(), camLeft = new Vector3f(), walkDirection = new Vector3f(), pos = new Vector3f(0, 200, 300);
     private Nifty nifty;
     private EditorCamera ECam;
-    private float x, y, z, gX,gY,gZ;
+    private float width, height, dept, sideWays,upDown,backFourht,mass;
     private Geometry pickedGeometry;
     private String nameofPickedItem;
     private Material mat1;
-
+boolean collectorExists;
     @Override
     public void simpleInitApp() {
 
@@ -152,13 +153,14 @@ public class Editor extends SimpleApplication implements ActionListener {
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat1.setColor("Color", ColorRGBA.Red);
                         
-                x = target.getLocalScale().x;
-                y = target.getLocalScale().y;
-                z = target.getLocalScale().z;
+                width = target.getLocalScale().x;
+                height = target.getLocalScale().y;
+                dept = target.getLocalScale().z;
                 if(target.getControl(RigidBodyControl.class) != null){
-                gX = target.getControl(RigidBodyControl.class).getGravity().x;
-                gY = target.getControl(RigidBodyControl.class).getGravity().y;
-                gZ = target.getControl(RigidBodyControl.class).getGravity().z;
+                sideWays = target.getControl(RigidBodyControl.class).getGravity().x;
+                upDown = target.getControl(RigidBodyControl.class).getGravity().y;
+                backFourht = target.getControl(RigidBodyControl.class).getGravity().z;
+                mass = target.getControl(RigidBodyControl.class).getMass();
             }
                 pickedGeometry = target;
                 nameofPickedItem = pickedGeometry.getName();
@@ -170,12 +172,12 @@ public class Editor extends SimpleApplication implements ActionListener {
 // default values, if nothing is picked
                 nameofPickedItem = "None Selected";
                 pickedGeometry = null;
-                x = -1;
-                y = -1;
-                z = -1;
-                gX = -1;
-                gY = -1;
-                gZ = -1;
+                width = -1;
+                height = -1;
+                dept = -1;
+                sideWays = -1;
+                upDown = -1;
+                backFourht = -1;
             }
             //check if Geometry has Gravity ( RigidBodyControl. Kinematic = false)
             checkKinematic();
@@ -191,12 +193,17 @@ public class Editor extends SimpleApplication implements ActionListener {
     public void simpleUpdate(float tpf) {
         if (game != null) {
             updatePos(tpf);
+            
             if (game.removeGeometry()) {
-                pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
-                pickedGeometry.removeFromParent();
-                game.resetRemovedGeometry();
+//                game.pickedItem.getChild(0).removeFromParent();
+////                pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
+////                pickedGeometry.removeFromParent();                
+//                game.resetRemovedGeometry();
             } else {
-                game.moveCollector(tpf, pickedGeometry);
+                if (collectorExists){
+                    game.moveCollector(tpf, pickedGeometry);
+                }
+                
             }
         }
         // this updates the label field in the hud to match what item is clicked ( will be selectet at a later point)
@@ -206,31 +213,31 @@ public class Editor extends SimpleApplication implements ActionListener {
             
            
             Element Label = nifty.getCurrentScreen().findElementByName("name");
-            TextField FieldX = nifty.getCurrentScreen().findNiftyControl("x", TextField.class);
-            TextField FieldY = nifty.getCurrentScreen().findNiftyControl("y", TextField.class);
-            TextField FieldZ = nifty.getCurrentScreen().findNiftyControl("z", TextField.class);
-            TextField FieldGX = nifty.getCurrentScreen().findNiftyControl("gX", TextField.class);
-            TextField FieldGY = nifty.getCurrentScreen().findNiftyControl("gY", TextField.class);
-            TextField FieldGZ = nifty.getCurrentScreen().findNiftyControl("gZ", TextField.class);
-            Button Button = nifty.getCurrentScreen().findNiftyControl("resetA", Button.class);
+            TextField FieldWidth = nifty.getCurrentScreen().findNiftyControl("width", TextField.class);
+            TextField FieldHeight = nifty.getCurrentScreen().findNiftyControl("height", TextField.class);
+            TextField FieldDepth = nifty.getCurrentScreen().findNiftyControl("depth", TextField.class);
+            TextField FieldGravitySideWays = nifty.getCurrentScreen().findNiftyControl("Gsideways", TextField.class);
+            TextField FieldGravityUpDown = nifty.getCurrentScreen().findNiftyControl("GUpDown", TextField.class);
+//            TextField FieldGravityBackFourth = nifty.getCurrentScreen().findNiftyControl("Gsideways", TextField.class);
+            TextField FieldMass = nifty.getCurrentScreen().findNiftyControl("mass", TextField.class);
+           
             CheckBox Gravity = nifty.getCurrentScreen().findNiftyControl("gravity", CheckBox.class);
 
-            if(Button.hasFocus()){
-                rootNode.detachAllChildren();
-                game = new StartGame(assetManager, stateManager, viewPort, flyCam, inputManager, cam);
-        rootNode.attachChild(game.getRoot());
-                
-            }
+//            if(Button.hasFocus()){
+//                
+//              game.resetObjects();
+//            }
             // change data in nifty
             if (Label != null) {
                 Label.getRenderer(TextRenderer.class).setText(getName());
                 if (clicked) {
-                    FieldX.setText(x + "");
-                    FieldY.setText(y + "");
-                    FieldZ.setText(z + "");
-                    FieldGX.setText(gX+"");
-                    FieldGY.setText(gY+"");
-                    FieldGZ.setText(gZ+"");
+                    FieldWidth.setText(width + "");
+                    FieldHeight.setText(height + "");
+                    FieldDepth.setText(dept + "");
+                    FieldGravitySideWays.setText(sideWays+"");
+                    FieldGravityUpDown.setText(upDown+"");
+                    FieldMass.setText(mass+"");
+//                    FieldGravityBackFourth.setText(backFourht+"");
 
                     Gravity.setEnabled(hasKinematic);
                     if (isChecked) {
@@ -247,19 +254,20 @@ public class Editor extends SimpleApplication implements ActionListener {
                     }
                     setKinematic(isChecked);
                     try {
-                        x = Float.parseFloat(FieldX.getDisplayedText());
-                        y = Float.parseFloat(FieldY.getDisplayedText());
-                        z = Float.parseFloat(FieldZ.getDisplayedText());
-                        gX = Float.parseFloat(FieldGX.getDisplayedText());
-                        gY = Float.parseFloat(FieldGY.getDisplayedText());
-                        gZ = Float.parseFloat(FieldGZ.getDisplayedText());
+                        width = Float.parseFloat(FieldWidth.getDisplayedText());
+                        height = Float.parseFloat(FieldHeight.getDisplayedText());
+                        dept = Float.parseFloat(FieldDepth.getDisplayedText());
+                        sideWays = Float.parseFloat(FieldGravitySideWays.getDisplayedText());
+                        upDown = Float.parseFloat(FieldGravityUpDown.getDisplayedText());
+                        mass = Float.parseFloat(FieldMass.getDisplayedText());
+//                        backFourht = Float.parseFloat(FieldGravityBackFourth.getDisplayedText());
                         if (!(pickedGeometry instanceof TerrainPatch) && pickedGeometry != null && !pickedGeometry.getName().equals("Oto-geom-1") && !pickedGeometry.getName().equals("Sky")) {
-                            pickedGeometry.setLocalScale(x, y, z);
-                            Vector3f gravity = new Vector3f(gX,gY,gZ);
+                            pickedGeometry.setLocalScale(width, height, dept);
+                            Vector3f gravity = new Vector3f(sideWays,upDown,backFourht);
                             pickedGeometry.getControl(RigidBodyControl.class).setGravity(gravity);
 
                             CollisionShape tmp = pickedGeometry.getControl(RigidBodyControl.class).getCollisionShape();
-                            tmp.setScale(new Vector3f(x, y, z));
+                            tmp.setScale(new Vector3f(width, height, dept));
                             pickedGeometry.getControl(RigidBodyControl.class).setCollisionShape(tmp);
                         }
                     } catch (NumberFormatException nfe) {
@@ -269,7 +277,7 @@ public class Editor extends SimpleApplication implements ActionListener {
             }
         }
     }
-    boolean test;
+    boolean runOnce;
     boolean view;
 
     public void updatePos(float tpf) {
@@ -282,17 +290,19 @@ public class Editor extends SimpleApplication implements ActionListener {
             game.setVectors(cam.getLocation());
             game.getPlayer().setWalkDirection(walkDirection);
             cam.setLocation(game.getPlayer().getPhysicsLocation());
+            flyCam.setEnabled(true);
             flyCam.setDragToRotate(false);
-
-            if (!test) {
+            
+            if (!runOnce) {
 //            inputManager.removeListener(this);
                 game.setUpKeys();
-                test = true;
-                view = false;
+                runOnce = true;
+                
             } else {
-
                 game.updatePos(tpf);
             }
+        }else{
+            
         }
     }
 
@@ -317,6 +327,7 @@ public class Editor extends SimpleApplication implements ActionListener {
 
     private void setCamera() {
         flyCam.setEnabled(false);
+        flyCam.setDragToRotate(true);
         cam.setFrustumFar(5000);
         ECam = new EditorCamera(cam);
         ECam.registerWithInput(inputManager);
@@ -351,18 +362,46 @@ public class Editor extends SimpleApplication implements ActionListener {
             }
         }
         if (binding.equals("view")) {
-            view = true;
+            if(isPressed) {
+                if (view) {
+                    view = false;
+                    setCamera();
+                }else {
+                    view = true;
+                }
+                
+            }
+            
+            
         }
         if (binding.equals("light")) {
 //            game.sunDir();
-            Vector3f geoPos = pickedGeometry.getWorldTranslation();
-            game.setEndPos(geoPos);
-            game.runCollector();
-
+//            Vector3f geoPos = pickedGeometry.getWorldTranslation();
+//            game.setEndPos(geoPos);
+//            game.runCollector();
+            if (pickedGeometry != null) {
+                game.setEndPos(pickedGeometry.getWorldTranslation());
+            }else {
+                
+                game.setEndPos(null);
+            }
+           if (!hascolelctor) {
+//               game.createCollector(); 
+           }
+                
+            
+               
+               hascolelctor = true;
+               game.runCollector();
+             collectorExists = true;
+            
+             
+             
+             
 //            changeDay();
         }
     }
-
+boolean hascolelctor;
     public void changeDay() {
         game.changeDay();
     }

@@ -12,12 +12,11 @@
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center"
             > 
-                <text text="The Editor" font="Interface/Fonts/Default.fnt" width="100%" height="100%" /> 
+                <text text="The Sandbox" font="Interface/Fonts/Default.fnt" width="100%" height="100%" /> 
             </panel>
             <panel id="panel_mid" height="50%" width="75%" align="center" childLayout="center"
             > 
-                <text text="Here goes some text describing the game and the rules and stuff. Incidentally, 
-         the text is quite long and needs to wrap at the end of lines. ..." 
+                <text text="This is a basic sandbox, where you can move objects (Box and Circle) around. you can change size and how it will responde to gravity" 
                 font="Interface/Fonts/Default.fnt" width="100%" height="100%" wrap="true" /> 
             </panel>
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal"
@@ -54,19 +53,19 @@
                backgroundColor="#44f8"> 
            <panel id="Width" childLayout="horizontal">
                 <control name="label" text="Width:   "></control>  
-                <control  id="x" name="textfield" color="#000" text="x coord"  backgroundColor="#00f8"> 
+                <control  id="width" name="textfield" color="#000" text="x coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
            </panel>
             <panel id="Height" childLayout="horizontal">
                  <control name="label" text="Height:   "></control>  
-               <control  id="y" name="textfield" color="#000" text="y coord"  backgroundColor="#00f8"> 
+               <control  id="height" name="textfield" color="#000" text="y coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
            </panel>
             <panel id="Depth" childLayout="horizontal">
                  <control name="label" text="Depth:   "></control>  
-               <control  id="z" name="textfield"   color="#000" text="z coord"  backgroundColor="#00f8"> 
+               <control  id="depth" name="textfield"   color="#000" text="z coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
            </panel>
@@ -74,38 +73,35 @@
                 </panel>
                 <panel id="panel_bot_right" width="100%" height="70%" childLayout="vertical"
                backgroundColor="#88f8">  
-                    <control name="button" label="Night" id="DayNight" align="center" valign="center"> </control>
+                   <!-- <control name="button" label="Night" id="DayNight" align="center" valign="center"> </control>-->
                     <panel id="Gravity" childLayout="horizontal" padding="5px">
-                        <control name="label" text="Gravity:  "></control>    
+                        <control name="label" text="Physics:  "></control>    
                         <control name="checkbox" label="Night" id="gravity" align="center" valign="center"> </control>  
-                    </panel>
+                    </panel> 
            <panel id="Gx" childLayout="horizontal">
                 <control name="label" text="SideWays:   "></control>  
-                <control  id="gX" name="textfield" color="#000" text="x coord"  backgroundColor="#00f8"> 
+                <control  id="Gsideways" name="textfield" color="#000" text="x coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
            </panel>
             <panel id="Gy" childLayout="horizontal">
                  <control name="label" text="UP/Down:   "></control>  
-               <control  id="gY" name="textfield" color="#000" text="y coord"  backgroundColor="#00f8"> 
+               <control  id="GUpDown" name="textfield" color="#000" text="y coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
            </panel>
-            <panel id="Gz" childLayout="horizontal">
-                 <control name="label" text="Back/Fourth:   "></control>  
-               <control  id="gZ" name="textfield"   color="#000" text="z coord"  backgroundColor="#00f8"> 
+            <panel id="Mass" childLayout="horizontal">
+                 <control name="label" text="Set mass:   "></control>  
+               <control  id="mass" name="textfield"   color="#000" text="z coord"  backgroundColor="#00f8"> 
                         <interact onClick="test()"/> 
                     </control>
            </panel>
-            <panel id="ResetGravity" childLayout="horizontal">
-                 <control name="label" text="Reset All Gravity:   "></control>  
-              <control name="button" label="Reset" id="resetG" align="center" valign="center"> </control>
-           </panel>
-           <panel id="ResetAll" childLayout="horizontal">
-                 <control name="label" text="Reset Game:   "></control>  
-              <control name="button" label="Reset" id="resetA" align="center" valign="center"> </control>
-           </panel>
-                </panel>
+      <!--      <panel id="ZeroGravity" childLayout="horizontal">
+                 <control name="label" text="Reset POS:   "></control>  
+              <control name="button" label="Reset" id="resetPos" align="center" valign="center"> </control>
+           </panel>-->
+           
+                </panel> 
             </panel>
       
         </layer>
