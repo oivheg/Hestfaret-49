@@ -16,7 +16,6 @@ import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Line;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -25,7 +24,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.terrain.geomipmap.TerrainPatch;
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.controls.Button;
 import de.lessvoid.nifty.controls.CheckBox;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
@@ -63,15 +61,16 @@ boolean collectorExists;
 
     private void addInputs() {
         String[] mName = {"mLeft", "mRight", "mUp", "mDown"};
-        String[] mName2 = {"click", "ctrl", "view", "light"};
+        String[] mName2 = {"click", "ctrl", "view", "collect","rain"};
         inputManager.addMapping("click", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         inputManager.addMapping("mLeft", new MouseAxisTrigger(MouseInput.AXIS_X, false));
         inputManager.addMapping("mRight", new MouseAxisTrigger(MouseInput.AXIS_X, true));
         inputManager.addMapping("mUp", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
         inputManager.addMapping("mDown", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
         inputManager.addMapping("ctrl", new KeyTrigger(KeyInput.KEY_LCONTROL));
-        inputManager.addMapping("view", new KeyTrigger(KeyInput.KEY_C));
-        inputManager.addMapping("light", new KeyTrigger(KeyInput.KEY_L));
+        inputManager.addMapping("view", new KeyTrigger(KeyInput.KEY_V));
+        inputManager.addMapping("collect", new KeyTrigger(KeyInput.KEY_C));
+        inputManager.addMapping("rain", new KeyTrigger(KeyInput.KEY_R));
         addListener(analogListener, mName);
         addListener(this, mName2);
     }
@@ -187,7 +186,7 @@ boolean collectorExists;
             }
         }
     }
-    boolean istrue;
+   
 
     @Override
     public void simpleUpdate(float tpf) {
@@ -195,17 +194,19 @@ boolean collectorExists;
             updatePos(tpf);
             
             if (game.removeGeometry()) {
+                pickedGeometry = null;
+                isPicked = false;
 //                game.pickedItem.getChild(0).removeFromParent();
 ////                pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
 ////                pickedGeometry.removeFromParent();                
 //                game.resetRemovedGeometry();
-            } else {
+            } 
                 if (collectorExists){
                     game.moveCollector(tpf, pickedGeometry);
                 }
                 
             }
-        }
+        
         // this updates the label field in the hud to match what item is clicked ( will be selectet at a later point)
         if (nifty != null && "hud".equals(nifty.getCurrentScreen().getScreenId())) {
             // find old text
@@ -264,14 +265,18 @@ boolean collectorExists;
                         if (!(pickedGeometry instanceof TerrainPatch) && pickedGeometry != null && !pickedGeometry.getName().equals("Oto-geom-1") && !pickedGeometry.getName().equals("Sky")) {
                             pickedGeometry.setLocalScale(width, height, dept);
                             Vector3f gravity = new Vector3f(sideWays,upDown,backFourht);
-                            pickedGeometry.getControl(RigidBodyControl.class).setGravity(gravity);
-
+                            if (pickedGeometry.getControl(RigidBodyControl.class) != null){
+                                                            pickedGeometry.getControl(RigidBodyControl.class).setGravity(gravity);
                             CollisionShape tmp = pickedGeometry.getControl(RigidBodyControl.class).getCollisionShape();
                             tmp.setScale(new Vector3f(width, height, dept));
                             pickedGeometry.getControl(RigidBodyControl.class).setCollisionShape(tmp);
+
+                            }
+
+
                         }
                     } catch (NumberFormatException nfe) {
-//                        System.out.println("Error occured ERROR:" + nfe );
+                        System.out.println("Error occured ERROR:" + nfe );
                     }
                 }
             }
@@ -346,9 +351,11 @@ boolean collectorExists;
         if (binding.equals("click")) {
             if (isPressed) {
                 clicked = true;
+                ECam.setDragToRotate(false);
                 pickItem();
             } else {
                 clicked = false;
+                ECam.setDragToRotate(true);
                 if (hasKinematic) {
                     pickedGeometry.getControl(RigidBodyControl.class).setKinematic(clicked);
                 }
@@ -371,10 +378,14 @@ boolean collectorExists;
                 }
                 
             }
-            
+           
             
         }
-        if (binding.equals("light")) {
+         if(binding.equals("rain")){
+                game.rain();
+            }
+            
+        if (binding.equals("collect")) {
 //            game.sunDir();
 //            Vector3f geoPos = pickedGeometry.getWorldTranslation();
 //            game.setEndPos(geoPos);
