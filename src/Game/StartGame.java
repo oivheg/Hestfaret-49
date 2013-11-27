@@ -27,6 +27,8 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Line;
+import com.jme3.math.Rectangle;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
@@ -34,6 +36,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.util.SkyFactory;
+import com.sun.org.apache.bcel.internal.generic.ATHROW;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +47,7 @@ import java.util.List;
 public class StartGame implements ActionListener, AnimEventListener {
 
     public BulletAppState bulletAppState;
-    private RigidBodyControl landscape, objects;
+    private RigidBodyControl landscape;
     private CharacterControl player, collector;
     private InputManager inputManager;
     private FlyByCamera flyCam;
@@ -57,7 +60,7 @@ public class StartGame implements ActionListener, AnimEventListener {
     private String clickedname;
     private DirectionalLight sun;
     private Data data;
-    int NumberGeometries;
+    int numberGeometries;
 
     public StartGame(AssetManager manager, AppStateManager stateManager, ViewPort viewPort, FlyByCamera fly, InputManager im, Camera c) {
         assetM = manager;
@@ -70,7 +73,8 @@ public class StartGame implements ActionListener, AnimEventListener {
 
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
-        bulletAppState.getPhysicsSpace().enableDebug(assetM);
+//        bulletAppState.getPhysicsSpace().enableDebug(assetM);
+      
         clickedname = "testing";
 
         root.attachChild(SkyFactory.createSky(
@@ -134,14 +138,14 @@ public class StartGame implements ActionListener, AnimEventListener {
             player.jump();
         } else if (binding.equals("view")) {
             flyCam.setEnabled(true);
-            isplayer = true;
+//            isplayer = true;
             cam1.setLocation(camLocation);
             flyCam.setDragToRotate(false);
         }
     }
     boolean view;
-    boolean test;
-    int counter = 0;
+//    boolean test;
+//    int counter = 0;
 
     public void setUpKeys() {
 
@@ -190,10 +194,6 @@ public class StartGame implements ActionListener, AnimEventListener {
         player.setWalkDirection(walkDirection);
     }
 
-    public String GetName() {
-        return clickedname;
-    }
-
     private void addObjects() {
 
         int Length = data.getObjects().size();
@@ -203,6 +203,38 @@ public class StartGame implements ActionListener, AnimEventListener {
 
             root.attachChild(data.getObjects().get(i));
         }
+
+    }
+List<Node> rain = new ArrayList<Node>();
+    public void rain() {
+       Node oneDrop = new Node(); 
+        oneDrop.attachChild(data.createOneBox());
+        int Length = data.getObjects().size();
+        Vector3f v1 = new Vector3f(10, 0, 0);
+        Vector3f v2 = new Vector3f(10, 10, 0);
+        Vector3f v3 = new Vector3f(0, 1, 0);
+        
+        for (int i = 0; i < 10; i++) {
+            
+            Node drop = new Node();
+            drop.attachChild(oneDrop.clone());
+           rain.add(drop);
+        }
+for (int r = 0; r < rain.size();r++) {
+     RigidBodyControl drop_phy = new RigidBodyControl(2f);
+    Rectangle random = new Rectangle(v1, v2, v3);
+        Vector3f randonPos = random.random();
+//        rain.get(r).setLocalTranslation(randonPos);
+        rain.get(r).getChild(0).addControl(drop_phy);
+         bulletAppState.getPhysicsSpace().add(  rain.get(r).getChild(0));
+    root.attachChild(rain.get(r));
+    
+}
+
+
+
+
+
 
     }
 
@@ -272,14 +304,14 @@ public class StartGame implements ActionListener, AnimEventListener {
                 haveItem = false;
                 channel.setAnim("stand", 1f);
                 pickChannel.reset(true);
-               
-                
+
+
 //               
-                restart = true;
+
                 System.out.println("LAST");
 //                removeGeometry = true;
-                
-                 removeGeom();
+
+                removeGeom();
             }
             channel.setLoopMode(LoopMode.DontLoop);
         }
@@ -297,12 +329,7 @@ public class StartGame implements ActionListener, AnimEventListener {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
     Vector3f currentPos;
-    Vector3f desiredPos = new Vector3f(10, 10, 10);
-    Vector3f distance = new Vector3f(0, 0, 0);
-    float time = 0f;
     private boolean shoudMove = false;
-    private float count = 0;
-    private Vector3f start;
     private Vector3f end = new Vector3f(10, 5, 5);
 
     public void setEndPos(Vector3f pos) {
@@ -329,21 +356,19 @@ public class StartGame implements ActionListener, AnimEventListener {
 
     }
     public Node pickedItem;
-    private int geoCounter = 0;
+    private int geomIndex = 0;
     Geometry testGeom;
-    List<Geometry> geomInScene = new ArrayList<Geometry>();
-
-   
 
     private void setPickedGeom() {
-        System.out.println("HAS BEEN RUN " + geoCounter);
-        NumberGeometries = data.getObjects().size() -1;
-        System.out.println("FROM DATA LIST" + NumberGeometries);
-        if (NumberGeometries >= 0 ) {
-            testGeom = (Geometry) data.getObjects().get(NumberGeometries).getChild(0);
+
+        numberGeometries = data.getObjects().size() - 1;
+        System.out.println("FROM DATA LIST" + numberGeometries);
+        if (numberGeometries >= 0) {
+            testGeom = (Geometry) data.getObjects().get(numberGeometries).getChild(0);
+            geomIndex = numberGeometries;
             System.out.println("geoemtries" + testGeom);
             end = testGeom.getWorldTranslation();
-            geoCounter++;
+
 //            NumberGeometries --;
         } else {
             end = new Vector3f(10, 5, 5);
@@ -351,19 +376,31 @@ public class StartGame implements ActionListener, AnimEventListener {
     }
 
     public void moveCollector(float tpf, Geometry pickedGeometry) {
-       
-            
-          if (restart) {
+
+
+        if (restart) {
             runCollector();
             restart = false;
-        }  
-        
-        
-        if (pickedGeometry == null) {
-
-            pickedGeometry = testGeom;
-//           end = testGeom.getWorldTranslation();
         }
+        if (pickedGeometry != null) {
+            for (int i = 0; i <= data.getObjects().size() - 1; i++) {
+
+                if (data.getObjects().get(i).hasChild(pickedGeometry)) {
+                    geomIndex = i;
+                    System.out.println("RUN ONCE: Picked Item pos =" + i);
+                }
+            }
+            if (!restart) {
+                end = pickedGeometry.getWorldTranslation();
+            }
+
+        } else {
+            pickedGeometry = testGeom;
+
+        }
+
+
+
 
 
         currentPos = collector.getPhysicsLocation();
@@ -395,9 +432,12 @@ public class StartGame implements ActionListener, AnimEventListener {
             pickedGeometry.setLocalTranslation(1, 2, 0);
             pickedItem = skeletonControl.getAttachmentsNode("hand.left");
             pickedItem.attachChild(pickedGeometry);
-            pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
+              if (pickedGeometry.getControl(RigidBodyControl.class) != null){
+                    pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
             pickedGeometry.getControl(RigidBodyControl.class).setKinematic(true);
-            Vector3f pos = pickedGeometry.getLocalTranslation();
+              }
+          
+
             Material mat = pickedGeometry.getMaterial();
             mat.setColor("Color", ColorRGBA.Red);
             end = new Vector3f(10, 5, 5);
@@ -420,9 +460,9 @@ public class StartGame implements ActionListener, AnimEventListener {
     boolean haveItem;
 
     public void runCollector() {
-        
+
         removeGeometry = false;
-        start = collector.getPhysicsLocation();
+
         channel.setAnim("Walk", 0.1f);
         channel.setSpeed(7);
         channel.setLoopMode(LoopMode.Loop);
@@ -446,9 +486,37 @@ public class StartGame implements ActionListener, AnimEventListener {
     }
 
     private void removeGeom() {
-       pickedItem.getChild(0).removeFromParent();
-        data.getObjects().remove(data.getObjects().get(NumberGeometries));
-        setPickedGeom();
-        runCollector();
+        pickedItem.getChild(0).removeFromParent();
+        if (!(numberGeometries <= 0)) {
+            data.getObjects().remove(data.getObjects().get(geomIndex));
+            setPickedGeom();
+            runCollector();
+            restart = true;
+            removeGeometry = true;
+        }
+
+    }
+
+    private Geometry setPickedgeom2(Geometry pickedGeometry) {
+        if (pickedGeometry == null) {
+
+            numberGeometries = data.getObjects().size() - 1;
+            System.out.println("FROM DATA LIST" + numberGeometries);
+            if (numberGeometries >= 0) {
+                pickedGeometry = (Geometry) data.getObjects().get(numberGeometries).getChild(0);
+                geomIndex = data.getObjects().indexOf(pickedGeometry);
+                System.out.println("geoemtries" + pickedGeometry);
+                end = pickedGeometry.getWorldTranslation();
+
+//            NumberGeometries --;
+            } else {
+                end = new Vector3f(10, 5, 5);
+            }
+        } else {
+            geomIndex = data.getObjects().indexOf(pickedGeometry);
+            end = pickedGeometry.getWorldTranslation();
+        }
+
+        return pickedGeometry;
     }
 }
