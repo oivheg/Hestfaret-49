@@ -12,6 +12,9 @@
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center"
             > 
+             <!--   <image filename="Interface/b1.png" height="50%" width="50%" layout_alignParentRight="true">
+                </image> 
+                -->
                 <text text="The Sandbox" font="Interface/Fonts/Default.fnt" width="100%" height="100%" /> 
             </panel>
             <panel id="panel_mid" height="50%" width="75%" align="center" childLayout="center"
@@ -99,12 +102,15 @@
                         <interact onClick="test()"/> 
                     </control>
            </panel>
-          <panel align="left"  backgroundColor="#000" id="Infor" childLayout="vertical">
-                <control align="left" name="label" text="Use: WSDA Keys to move camera/player"/>
-               <control name="label" text="Use: C To start the colelctor"/>
-               <control name="label" text="Click: The WIDTH TextField BEFORE entering Player mode."/>
-               <control name="label" text="Use: V to change to EDTOR/Player view"/>               
-               <control name="label" text="Use: R to make lots od Boxes explode"/>
+          <panel   backgroundColor="#000" id="Infor" childLayout="vertical">
+                <control align="left" name="label" text="Use: 'WSDA' Keys to move camera/player"/>
+               <control  align="left" name="label" text="Use: 'C' To start the colelctor"/>
+               <control  align="left" name="label" text="Click: The 'WIDTH TextField' "/>
+                <control  align="center" name="label" text=" BEFORE entering Player mode."/>
+               <control  align="left" name="label" text="Use: 'V' to change to EDTOR/Player view"/>               
+               <control  align="left" name="label" text="Use: 'R' to make lots od Boxes appear"/>
+               <control  align="left" name="label" text="Use: 'Mouse' to drag/drop Objects and Pick"/>
+               <control  align="left" name="label" text="Use: 'Mouse with CTRL' to drag/drop Objects UP/Down"/>
            </panel>
            
       <!--      <panel id="ZeroGravity" childLayout="horizontal">

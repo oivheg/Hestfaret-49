@@ -389,7 +389,7 @@ boolean collectorExists;
             
         }
          if(binding.equals("rain")){
-                game.rain();
+                game.explode();
             }
             
         if (binding.equals("collect")) {
@@ -406,16 +406,10 @@ boolean collectorExists;
            if (!hascolelctor) {
 //               game.createCollector(); 
            }
-                
-            
-               
-               hascolelctor = true;
+           hascolelctor = true;
                game.runCollector();
              collectorExists = true;
             
-             
-             
-             
 //            changeDay();
         }
     }

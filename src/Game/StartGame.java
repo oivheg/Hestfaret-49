@@ -27,15 +27,22 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Line;
+import com.jme3.math.Plane;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Rectangle;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.ViewPort;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Quad;
 import com.jme3.util.SkyFactory;
+import com.jme3.water.SimpleWaterProcessor;
 import com.sun.org.apache.bcel.internal.generic.ATHROW;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +67,7 @@ public class StartGame implements ActionListener, AnimEventListener {
     private String clickedname;
     private DirectionalLight sun;
     private Data data;
+    private ViewPort viewP;
     int numberGeometries;
 
     public StartGame(AssetManager manager, AppStateManager stateManager, ViewPort viewPort, FlyByCamera fly, InputManager im, Camera c) {
@@ -68,13 +76,13 @@ public class StartGame implements ActionListener, AnimEventListener {
         flyCam = fly;
         cam1 = c;
         flyCam.setMoveSpeed(100);
-
+        viewP = viewPort;
         data = new Data(assetM, 3, 4);
 
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
 //        bulletAppState.getPhysicsSpace().enableDebug(assetM);
-      
+
         clickedname = "testing";
 
         root.attachChild(SkyFactory.createSky(
@@ -86,6 +94,7 @@ public class StartGame implements ActionListener, AnimEventListener {
         //fire
         addFire();
         Physics();
+//        createSetWater();
         createCollector();
         setPickedGeom();
         //finished addint content to scene
@@ -154,7 +163,7 @@ public class StartGame implements ActionListener, AnimEventListener {
         addMaping("Up", KeyInput.KEY_W);
         addMaping("Down", KeyInput.KEY_S);
         addMaping("Jump", KeyInput.KEY_SPACE);
-        addMaping("view", KeyInput.KEY_C);
+        addMaping("view", KeyInput.KEY_V);
 
         inputManager.addListener(this, "Left");
         inputManager.addListener(this, "Right");
@@ -196,6 +205,8 @@ public class StartGame implements ActionListener, AnimEventListener {
 
     private void addObjects() {
 
+
+
         int Length = data.getObjects().size();
         for (int i = 0; i < Length; i++) {
 
@@ -203,41 +214,68 @@ public class StartGame implements ActionListener, AnimEventListener {
 
             root.attachChild(data.getObjects().get(i));
         }
+        Spatial palm = assetM.loadModel("Models/palm/palm.j3o");
+        palm.setLocalTranslation(-60, 5, 5);
+        palm.setLocalTranslation(-60, 5, 5);
+        root.attachChild(palm);
 
     }
-List<Node> rain = new ArrayList<Node>();
-    public void rain() {
-       Node oneDrop = new Node(); 
-        oneDrop.attachChild(data.createOneBox());
+   List<Spatial> Drops = new ArrayList<Spatial>();
+    boolean exists = false;
+
+    public void explode() {
+        Spatial oneDrop = data.createOneBox();
+
         int Length = data.getObjects().size();
-        Vector3f v1 = new Vector3f(10, 0, 0);
+        Vector3f v1 = new Vector3f(-10, 0, 0);
         Vector3f v2 = new Vector3f(10, 10, 0);
-        Vector3f v3 = new Vector3f(0, 1, 0);
+        Vector3f v3 = new Vector3f(10, 10, 0);
         
-        for (int i = 0; i < 10; i++) {
-            
-            Node drop = new Node();
-            drop.attachChild(oneDrop.clone());
-           rain.add(drop);
+         Rectangle random = new Rectangle(v1, v2, v3);
+        if (!exists) {
+           
+            for (int r = 0; r < 100; r++) {
+                
+                
+                
+                Drops.add(oneDrop.clone());
+                    
+
+            }
+exists = true;
         }
-for (int r = 0; r < rain.size();r++) {
-     RigidBodyControl drop_phy = new RigidBodyControl(2f);
-    Rectangle random = new Rectangle(v1, v2, v3);
+//        int i = 0;
+            for (int i = 0; i < Drops.size();i++){
+                
+                if(i <30){
+                    if (Drops.get(i).getControl(RigidBodyControl.class) != null){
+                       Drops.get(i).getControl(RigidBodyControl.class).setEnabled(false);
+                     Drops.get(i).removeControl(RigidBodyControl.class);
+                     Drops.get(i).removeFromParent();
+                     
+                      Drops.get(i).setLocalTranslation(10, 10, 10);
+                      Drops.add(Drops.get(i));
+                      Drops.remove(Drops.get(i)); 
+                   }
+                }
+                
         Vector3f randonPos = random.random();
-//        rain.get(r).setLocalTranslation(randonPos);
-        rain.get(r).getChild(0).addControl(drop_phy);
-         bulletAppState.getPhysicsSpace().add(  rain.get(r).getChild(0));
-    root.attachChild(rain.get(r));
-    
-}
-
-
-
-
-
-
+                
+                     RigidBodyControl drop_phy = new RigidBodyControl(0.001f);
+                    Drops.get(i).addControl(drop_phy);
+Drops.get(i).getControl(RigidBodyControl.class).setGravity(randonPos);
+Drops.get(i).setLocalTranslation(randonPos);
+                    bulletAppState.getPhysicsSpace().add(Drops.get(i));
+                    
+                root.attachChild(Drops.get(i));
+                
+        
+                
+                
+            }
+            
     }
-
+boolean exists2 = false;
     private void addFire() {
         // fire
         Fire fire = new Fire(assetM);
@@ -306,7 +344,7 @@ for (int r = 0; r < rain.size();r++) {
                 pickChannel.reset(true);
 
 
-//               
+//
 
                 System.out.println("LAST");
 //                removeGeometry = true;
@@ -354,6 +392,7 @@ for (int r = 0; r < rain.size();r++) {
         channel.setAnim("stand");
         root.attachChild(collectorNode);
 
+
     }
     public Node pickedItem;
     private int geomIndex = 0;
@@ -397,7 +436,8 @@ for (int r = 0; r < rain.size();r++) {
         } else {
             pickedGeometry = testGeom;
 
-        }currentPos = collector.getPhysicsLocation();
+        }
+        currentPos = collector.getPhysicsLocation();
 //        System.out.println("collector pos" + currentPos);
         currentPos = collectorNode.getLocalTranslation();
         Vector3f step;
@@ -426,11 +466,11 @@ for (int r = 0; r < rain.size();r++) {
             pickedGeometry.setLocalTranslation(1, 2, 0);
             pickedItem = skeletonControl.getAttachmentsNode("hand.left");
             pickedItem.attachChild(pickedGeometry);
-              if (pickedGeometry.getControl(RigidBodyControl.class) != null){
-                    pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
-            pickedGeometry.getControl(RigidBodyControl.class).setKinematic(true);
-              }
-          
+            if (pickedGeometry.getControl(RigidBodyControl.class) != null) {
+                pickedGeometry.getControl(RigidBodyControl.class).setEnabled(false);
+                pickedGeometry.getControl(RigidBodyControl.class).setKinematic(true);
+            }
+
 
             Material mat = pickedGeometry.getMaterial();
             mat.setColor("Color", ColorRGBA.Red);
@@ -470,9 +510,10 @@ for (int r = 0; r < rain.size();r++) {
         sun.setDirection(sunDir);
         root.addLight(sun);
     }
+    Spatial scene;
 
     private void configureScene() {
-        Spatial scene = assetM.loadModel("Scenes/Scene1.j3o");
+        scene = assetM.loadModel("Scenes/Scene1.j3o");
         CollisionShape sceneShape = CollisionShapeFactory.createMeshShape((Node) scene);
         landscape = new RigidBodyControl(sceneShape, 0);
         scene.addControl(landscape);
@@ -512,5 +553,24 @@ for (int r = 0; r < rain.size();r++) {
         }
 
         return pickedGeometry;
+    }
+
+    private void createSetWater() {
+        SimpleWaterProcessor waterProcessor = new SimpleWaterProcessor(assetM);
+        waterProcessor.setReflectionScene(scene);
+        Vector3f waterLocation = new Vector3f(0, -6, 0);
+        waterProcessor.setPlane(new Plane(Vector3f.UNIT_Y, waterLocation.dot(Vector3f.UNIT_Y)));
+        viewP.addProcessor(waterProcessor);
+        waterProcessor.setWaterDepth(40);         // transparency of water
+        waterProcessor.setDistortionScale(0.05f); // strength of waves
+        waterProcessor.setWaveSpeed(0.05f);       // speed of waves
+        Quad quad = new Quad(400, 400);
+        quad.scaleTextureCoordinates(new Vector2f(6f, 6f));
+        Geometry water = new Geometry("water", quad);
+        water.setLocalRotation(new Quaternion().fromAngleAxis(-FastMath.HALF_PI, Vector3f.UNIT_X));
+        water.setLocalTranslation(-10, 10, 10);
+        water.setShadowMode(ShadowMode.Receive);
+        water.setMaterial(waterProcessor.getMaterial());
+        root.attachChild(water);
     }
 }
