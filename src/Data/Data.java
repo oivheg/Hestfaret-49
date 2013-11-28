@@ -16,9 +16,29 @@ import java.util.List;
 public class Data {
 
     private List<Node> lstObjects = new ArrayList<Node>();
-
+ Objects objects;
     public Data(AssetManager manager, int boxes, int spheres) {
-        Objects objects = new Objects(manager);
+      objects  = new Objects(manager);
+        createObjects(boxes, spheres);
+    }
+
+    public void setPhysics() {
+        for (int i = 0; i < lstObjects.size(); i++) {
+            RigidBodyControl brick_phy = new RigidBodyControl(2f);
+            lstObjects.get(i).getChild(0).addControl(brick_phy);
+        }
+    }
+
+    public List<Node> getObjects() {
+        return lstObjects;
+    }
+    
+    public Geometry createOneBox(){
+        return objects.createObject(1, ColorRGBA.Green, "box");
+        
+    }
+
+    private void createObjects(int boxes, int spheres) {
         for (int i = 0; i < boxes; i++) {
             Node box = new Node("box" + i);
             box.attachChild(objects.createObject(i, ColorRGBA.Green, "box"));
@@ -31,16 +51,5 @@ public class Data {
             sphere.attachChild(objects.createObject(i, ColorRGBA.Blue, "sphere"));
             lstObjects.add(sphere);
         }
-    }
-
-    public void setPhysics() {
-        for (int i = 0; i < lstObjects.size(); i++) {
-            RigidBodyControl brick_phy = new RigidBodyControl(2f);
-            lstObjects.get(i).getChild(0).addControl(brick_phy);
-        }
-    }
-
-    public List<Node> getObjects() {
-        return lstObjects;
     }
 }

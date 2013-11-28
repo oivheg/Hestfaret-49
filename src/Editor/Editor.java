@@ -27,7 +27,12 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.CheckBox;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.render.NiftyImage;
+import de.lessvoid.nifty.tools.SizeValue;
+import java.awt.Image;
+
 
 public class Editor extends SimpleApplication implements ActionListener {
 
@@ -221,7 +226,8 @@ boolean collectorExists;
             TextField FieldGravityUpDown = nifty.getCurrentScreen().findNiftyControl("GUpDown", TextField.class);
 //            TextField FieldGravityBackFourth = nifty.getCurrentScreen().findNiftyControl("Gsideways", TextField.class);
             TextField FieldMass = nifty.getCurrentScreen().findNiftyControl("mass", TextField.class);
-           
+//           Element element = nifty.getCurrentScreen().findElementByName("imageId");
+          
             CheckBox Gravity = nifty.getCurrentScreen().findNiftyControl("gravity", CheckBox.class);
 
 //            if(Button.hasFocus()){
@@ -239,7 +245,8 @@ boolean collectorExists;
                     FieldGravityUpDown.setText(upDown+"");
                     FieldMass.setText(mass+"");
 //                    FieldGravityBackFourth.setText(backFourht+"");
-
+//element.setConstraintWidth(new SizeValue("5px"));
+//element.getParent().layoutElements();
                     Gravity.setEnabled(hasKinematic);
                     if (isChecked) {
                         Gravity.setChecked(isChecked);

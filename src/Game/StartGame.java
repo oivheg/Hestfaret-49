@@ -397,13 +397,7 @@ for (int r = 0; r < rain.size();r++) {
         } else {
             pickedGeometry = testGeom;
 
-        }
-
-
-
-
-
-        currentPos = collector.getPhysicsLocation();
+        }currentPos = collector.getPhysicsLocation();
 //        System.out.println("collector pos" + currentPos);
         currentPos = collectorNode.getLocalTranslation();
         Vector3f step;
